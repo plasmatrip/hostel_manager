@@ -9,6 +9,7 @@ import 'package:hostel_manager/app/internal/ui.dart';
 import 'package:hostel_manager/app/models/settings.dart';
 import 'package:hostel_manager/app/pages/onboarding/widgets/page1.dart';
 import 'package:hostel_manager/app/pages/onboarding/widgets/page2.dart';
+import 'package:hostel_manager/app/pages/onboarding/widgets/page3.dart';
 import 'package:hostel_manager/app/routing/app_router.gr.dart';
 
 @RoutePage()
@@ -26,7 +27,7 @@ class _OnBoardingViewState extends State<OnBoardingView> {
   void listener() {
     switch (controller.position.userScrollDirection) {
       case ScrollDirection.reverse:
-        if ((controller.page ?? 0) > 0) {
+        if ((controller.page ?? 0) > 1) {
           setState(
             () {
               start = true;
@@ -34,7 +35,7 @@ class _OnBoardingViewState extends State<OnBoardingView> {
           );
         }
       case ScrollDirection.forward:
-        if ((controller.page ?? 0) < 1) {
+        if ((controller.page ?? 0) < 2) {
           setState(
             () {
               start = false;
@@ -42,7 +43,7 @@ class _OnBoardingViewState extends State<OnBoardingView> {
           );
         }
       case ScrollDirection.idle:
-        if ((controller.page ?? 0) >= 1) {
+        if ((controller.page ?? 0) >= 2) {
           setState(
             () {
               start = true;
@@ -69,7 +70,6 @@ class _OnBoardingViewState extends State<OnBoardingView> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
         children: [
           Expanded(
             child: PageView(
@@ -77,6 +77,7 @@ class _OnBoardingViewState extends State<OnBoardingView> {
               children: const [
                 Page1(),
                 Page2(),
+                Page3(),
               ],
             ),
           ),
@@ -107,7 +108,10 @@ class _OnBoardingViewState extends State<OnBoardingView> {
                           minimumSize: WidgetStatePropertyAll(Size(156.w, 40.h)),
                           maximumSize: WidgetStatePropertyAll(Size(156.w, 40.h)),
                         ),
-                        child: const Text('Пропустить'),
+                        child: Text(
+                          'Пропустить',
+                          style: context.s17w500.copyWith(color: colorsAcc),
+                        ),
                       ),
                       FilledButton(
                         onPressed: () async => controller.nextPage(
@@ -118,7 +122,10 @@ class _OnBoardingViewState extends State<OnBoardingView> {
                           minimumSize: WidgetStatePropertyAll(Size(156.w, 40.h)),
                           maximumSize: WidgetStatePropertyAll(Size(156.w, 40.h)),
                         ),
-                        child: const Text('Далееs'),
+                        child: Text(
+                          'Далее',
+                          style: context.s17w500.copyWith(color: Colors.white),
+                        ),
                       ),
                     ],
                   ),

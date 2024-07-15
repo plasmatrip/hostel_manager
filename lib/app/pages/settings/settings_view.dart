@@ -21,30 +21,20 @@ class SettingsView extends StatelessWidget {
         leading: GestureDetector(
           behavior: HitTestBehavior.opaque,
           onTap: () => AutoRouter.of(context).removeLast(),
-          child: SvgPicture.asset(
-            'assets/icons/Round Arrow Left.svg',
-            width: 24.w,
-            height: 24.w,
-            fit: BoxFit.none,
+          child: Icon(
+            Icons.arrow_back_ios,
+            color: colorsAcc,
+            size: 24.h,
           ),
         ),
-        // titleSpacing: 24.w,
         title: const Text('Настройки'),
-        bottom: PreferredSize(
-          preferredSize: Size.fromHeight(1.h),
-          child: Container(
-            height: 8.h,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(8.h),
-                bottomRight: Radius.circular(8.h),
-              ),
-              border: Border(
-                bottom: BorderSide(width: 1.h, color: greyDark),
-              ),
-            ),
-          ),
-        ),
+        backgroundColor: bg,
+        surfaceTintColor: bg,
+        shadowColor: const Color(0x3FABB1B9),
+        elevation: 10,
+        // shape: RoundedRectangleBorder(
+        //   borderRadius: BorderRadius.circular(8.h),
+        // ),
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(vertical: 20.h, horizontal: 20.w),

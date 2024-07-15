@@ -30,6 +30,24 @@ extension UI on BuildContext {
   TextStyle get s10w300 => TextStyle(fontSize: 10.h, fontFamily: 'SF Pro Display', fontWeight: FontWeight.w300);
   TextStyle get s8w500 => TextStyle(fontSize: 8.h, fontFamily: 'SF Pro Display', fontWeight: FontWeight.w500);
 
+  TextStyle get textUnderline => TextStyle(
+        fontSize: 10.h,
+        fontFamily: 'SF Pro Display',
+        fontWeight: FontWeight.w600,
+        color: Colors.transparent,
+        shadows: [
+          Shadow(
+            offset: Offset(0, -0.1.h),
+            color: colorsAcc,
+          ),
+        ],
+        decoration: TextDecoration.underline,
+        decorationStyle: TextDecorationStyle.solid,
+        decorationColor: colorsAcc,
+        decorationThickness: 0.3.h,
+        height: 0,
+      );
+
   ButtonStyle get btnCanel => FilledButton.styleFrom(
         padding: EdgeInsets.symmetric(horizontal: 16.w),
         backgroundColor: bg,

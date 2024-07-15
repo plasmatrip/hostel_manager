@@ -6,7 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive/hive.dart';
 import 'package:hostel_manager/app/internal/colors.dart';
 import 'package:hostel_manager/app/internal/ui.dart';
-import 'package:hostel_manager/app/repository/gift_repo.dart';
+import 'package:hostel_manager/app/repository/room_repo.dart';
 import 'package:hostel_manager/app/routing/app_router.dart';
 import 'package:provider/provider.dart';
 
@@ -30,7 +30,7 @@ class _AppState extends State<App> {
   Widget build(BuildContext context) {
     return MultiProvider(
         providers: [
-          ChangeNotifierProvider(create: (context) => GiftRepo()),
+          ChangeNotifierProvider(create: (context) => RoomRepo()),
         ],
         builder: (context, child) {
           return DevicePreview(

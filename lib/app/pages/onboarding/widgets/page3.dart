@@ -3,8 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hostel_manager/app/internal/colors.dart';
 import 'package:hostel_manager/app/internal/ui.dart';
 
-class Page1 extends StatelessWidget {
-  const Page1({
+class Page3 extends StatelessWidget {
+  const Page3({
     super.key,
   });
 
@@ -14,7 +14,7 @@ class Page1 extends StatelessWidget {
       alignment: Alignment.center,
       children: [
         Image.asset(
-          'assets/images/ob1.png',
+          'assets/images/ob3.png',
           width: 375.w,
           height: 812.h,
           fit: BoxFit.cover,
@@ -44,7 +44,7 @@ class Page1 extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'HostelManager',
+                  'Новости',
                   style: context.s24w400.copyWith(color: colorsAcc),
                 ),
                 const Spacer(),
@@ -58,7 +58,7 @@ class Page1 extends StatelessWidget {
                     ),
                     Expanded(
                       child: Text(
-                        'Вся необходимая информация о вашем хостеле',
+                        'Новости из туристической сферы',
                         style: context.s14w400.copyWith(color: greyDark, letterSpacing: -0.7.w),
                       ),
                     )
@@ -74,7 +74,7 @@ class Page1 extends StatelessWidget {
                     ),
                     Expanded(
                       child: Text(
-                        'Управляйте номерами и их бранированием',
+                        'Будьте в курсе последних новостей и не упускайте важную информацию',
                         style: context.s14w400.copyWith(color: greyDark, letterSpacing: -0.7.w),
                       ),
                     )

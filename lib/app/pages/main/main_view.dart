@@ -1,7 +1,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:hostel_manager/app/pages/main/widgets/app_title.dart';
+import 'package:hostel_manager/app/pages/main/widgets/rooms_info.dart';
+import 'package:hostel_manager/app/pages/main/widgets/rooms_list.dart';
 
 @RoutePage()
 class MainView extends StatefulWidget {
@@ -14,29 +16,25 @@ class MainView extends StatefulWidget {
 class _MainView extends State<MainView> {
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-      child: Scaffold(
-        extendBodyBehindAppBar: true,
-        body: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Image.asset(
-                'assets/images/main.png',
-                width: 375.w,
-                height: 200.w,
-                fit: BoxFit.fitWidth,
+    return Scaffold(
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 57.h),
+              child: Column(
+                children: [
+                  const AppTitle(),
+                  SizedBox(height: 20.h),
+                  const RoomsInfo(),
+                  SizedBox(height: 20.h),
+                  const RoomsList(),
+                ],
               ),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
-                child: Column(
-                  children: [],
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
