@@ -81,12 +81,11 @@ class _OnBoardingViewState extends State<OnBoardingView> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 24.w),
+            padding: EdgeInsets.symmetric(horizontal: 20.w),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                // SizedBox(height: 21.h),
                 if (start) ...[
                   FilledButton(
                     onPressed: () async {
@@ -95,12 +94,8 @@ class _OnBoardingViewState extends State<OnBoardingView> {
                       settings.save();
                       AutoRouter.of(context).replace(const MainView());
                     },
-                    style: context.extraBtn.copyWith(
-                      minimumSize: WidgetStatePropertyAll(Size(327.w, 36.h)),
-                      maximumSize: WidgetStatePropertyAll(Size(327.w, 36.h)),
-                      textStyle: WidgetStatePropertyAll(context.s16w600),
-                    ),
-                    child: Text(start ? 'Начать' : 'Продолжить'),
+                    style: context.extraBtn,
+                    child: const Text('Начать'),
                   ),
                 ] else ...[
                   Row(
@@ -109,8 +104,8 @@ class _OnBoardingViewState extends State<OnBoardingView> {
                       FilledButton(
                         onPressed: () async => AutoRouter.of(context).replace(const MainView()),
                         style: context.btnCanel.copyWith(
-                          minimumSize: WidgetStatePropertyAll(Size(156.w, 36.h)),
-                          maximumSize: WidgetStatePropertyAll(Size(156.w, 36.h)),
+                          minimumSize: WidgetStatePropertyAll(Size(156.w, 40.h)),
+                          maximumSize: WidgetStatePropertyAll(Size(156.w, 40.h)),
                         ),
                         child: const Text('Пропустить'),
                       ),
@@ -120,10 +115,10 @@ class _OnBoardingViewState extends State<OnBoardingView> {
                           curve: Curves.easeInOut,
                         ),
                         style: context.btnOk.copyWith(
-                          minimumSize: WidgetStatePropertyAll(Size(156.w, 36.h)),
-                          maximumSize: WidgetStatePropertyAll(Size(156.w, 36.h)),
+                          minimumSize: WidgetStatePropertyAll(Size(156.w, 40.h)),
+                          maximumSize: WidgetStatePropertyAll(Size(156.w, 40.h)),
                         ),
-                        child: const Text('Продолжить'),
+                        child: const Text('Далееs'),
                       ),
                     ],
                   ),
@@ -133,19 +128,19 @@ class _OnBoardingViewState extends State<OnBoardingView> {
                   child: Row(
                     children: [
                       SizedBox(
-                        width: 153.w,
+                        width: 157.w,
                         child: Text(
                           'Условия использования',
-                          style: context.s9w400i.copyWith(color: stroke),
+                          style: context.s10w400.copyWith(color: greyGrey, letterSpacing: -0.3.w),
                           textAlign: TextAlign.right,
                         ),
                       ),
-                      VerticalDivider(color: acc, thickness: 0.5.w, width: 20.w),
+                      VerticalDivider(color: colorsAcc, thickness: 0.5.w, width: 20.w),
                       SizedBox(
-                        width: 153.w,
+                        width: 157.w,
                         child: Text(
                           'Политика конфиденциальности',
-                          style: context.s9w400i.copyWith(color: stroke),
+                          style: context.s10w400.copyWith(color: greyGrey, letterSpacing: -0.3.w),
                         ),
                       ),
                     ],

@@ -51,9 +51,9 @@ class _AppState extends State<App> {
                       theme: ThemeData(
                         scaffoldBackgroundColor: bg,
                         appBarTheme: AppBarTheme(
-                          backgroundColor: sec,
+                          backgroundColor: bg,
                           centerTitle: true,
-                          titleTextStyle: context.s18w600.copyWith(color: greyDark),
+                          titleTextStyle: context.s17w500.copyWith(color: greyBlack),
                         ),
                         useMaterial3: true,
                       ),

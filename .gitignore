@@ -44,3 +44,4 @@ app.*.map.json
 .metadata
 pubspec.lock
 README.md
+.vscode/launch.json

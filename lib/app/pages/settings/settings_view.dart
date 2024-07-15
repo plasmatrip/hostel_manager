@@ -56,43 +56,59 @@ class SettingsView extends StatelessWidget {
               onTap: () async => openUrl(Hive.box<Settings>(Boxes.settings).getAt(0)!.privacyPolicyUri),
               child: Container(
                 width: 335.w,
-                height: 52.h,
-                padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 14.h),
-                decoration: ShapeDecoration(
-                  color: sec,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.h)),
+                height: 48.h,
+                padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 12.h),
+                decoration: BoxDecoration(
+                  color: bg,
+                  borderRadius: BorderRadius.circular(8.h),
+                  boxShadow: [
+                    BoxShadow(
+                      color: const Color(0x3FABB1B9),
+                      blurRadius: 12.h,
+                      offset: Offset(0, 2.h),
+                      spreadRadius: 0,
+                    )
+                  ],
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('Политика конфиденциальности', style: context.s14w500.copyWith(color: greyDark, letterSpacing: -0.5.w)),
-                    SvgPicture.asset('assets/icons/Lock.svg', width: 254.w, height: 24.h),
+                    SvgPicture.asset('assets/icons/Bag.svg', width: 24.w, height: 24.h),
+                    Text('Политика конфиденциальности', style: context.s15w400.copyWith(color: greyDark, letterSpacing: -0.5.w)),
                   ],
                 ),
               ),
             ),
-            SizedBox(height: 20.h),
+            SizedBox(height: 16.h),
             GestureDetector(
               behavior: HitTestBehavior.opaque,
               onTap: () async => openUrl(Hive.box<Settings>(Boxes.settings).getAt(0)!.termsOfUseUri),
               child: Container(
                 width: 335.w,
-                height: 52.h,
-                padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 14.h),
-                decoration: ShapeDecoration(
-                  color: sec,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.h)),
+                height: 48.h,
+                padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 12.h),
+                decoration: BoxDecoration(
+                  color: bg,
+                  borderRadius: BorderRadius.circular(8.h),
+                  boxShadow: [
+                    BoxShadow(
+                      color: const Color(0x3FABB1B9),
+                      blurRadius: 12.h,
+                      offset: Offset(0, 2.h),
+                      spreadRadius: 0,
+                    )
+                  ],
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('Пользовательское соглашение', style: context.s14w500.copyWith(color: greyDark, letterSpacing: -0.5.w)),
-                    SvgPicture.asset('assets/icons/Diploma Verified.svg', width: 254.w, height: 24.h),
+                    SvgPicture.asset('assets/icons/Document Text.svg', width: 24.w, height: 24.h),
+                    Text('Пользовательское соглашение', style: context.s15w400.copyWith(color: greyDark, letterSpacing: -0.5.w)),
                   ],
                 ),
               ),
             ),
-            SizedBox(height: 40.h),
+            SizedBox(height: 32.h),
             GestureDetector(
               behavior: HitTestBehavior.opaque,
               onTap: () async {
@@ -103,17 +119,25 @@ class SettingsView extends StatelessWidget {
               },
               child: Container(
                 width: 335.w,
-                height: 52.h,
-                padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 14.h),
-                decoration: ShapeDecoration(
-                  color: sec,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.h)),
+                height: 48.h,
+                padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 12.h),
+                decoration: BoxDecoration(
+                  color: bg,
+                  borderRadius: BorderRadius.circular(8.h),
+                  boxShadow: [
+                    BoxShadow(
+                      color: const Color(0x3FABB1B9),
+                      blurRadius: 12.h,
+                      offset: Offset(0, 2.h),
+                      spreadRadius: 0,
+                    )
+                  ],
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
+                    SvgPicture.asset('assets/icons/Heart.svg', width: 24.w, height: 24.h),
                     Text('Оценить приложение', style: context.s14w500.copyWith(color: greyDark, letterSpacing: -0.5.w)),
-                    SvgPicture.asset('assets/icons/Heart.svg', width: 254.w, height: 24.h),
                   ],
                 ),
               ),

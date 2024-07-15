@@ -70,9 +70,9 @@ class _SplashViewState extends State<SplashView> {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisSize: MainAxisSize.max,
             children: [
-              Image.asset('assets/images/splash.png', width: 335.w, height: 335.w),
+              Image.asset('assets/images/splash.png', width: 315.w, height: 307.w),
               DefaultTextStyle(
-                style: context.s32w600.copyWith(color: acc),
+                style: context.s32w600.copyWith(color: colorsAcc),
                 child: const Text(
                   'Gifts',
                 ),
