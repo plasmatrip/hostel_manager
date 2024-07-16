@@ -5,7 +5,7 @@ part 'room.g.dart';
 @HiveType(typeId: 1)
 class Room extends HiveObject {
   @HiveField(0)
-  List<String> images;
+  String image1;
 
   @HiveField(1)
   String name;
@@ -37,8 +37,20 @@ class Room extends HiveObject {
   @HiveField(10)
   bool? bathAccessories;
 
+  @HiveField(11)
+  String image2;
+
+  @HiveField(12)
+  String image3;
+
+  @HiveField(13)
+  String image4;
+
+  @HiveField(14)
+  String image5;
+
   bool isNotEmpty() {
-    return images.isNotEmpty &&
+    return image1.isNotEmpty &&
         name.isNotEmpty &&
         price != 0 &&
         description.isNotEmpty &&
@@ -52,7 +64,11 @@ class Room extends HiveObject {
   }
 
   void copyWith(Room room) {
-    images = room.images;
+    image1 = room.image1;
+    image2 = room.image2;
+    image3 = room.image3;
+    image4 = room.image4;
+    image5 = room.image5;
     name = room.name;
     price = room.price;
     description = room.description;
@@ -66,7 +82,11 @@ class Room extends HiveObject {
   }
 
   Room({
-    required this.images,
+    required this.image1,
+    required this.image2,
+    required this.image3,
+    required this.image4,
+    required this.image5,
     required this.name,
     required this.price,
     required this.description,

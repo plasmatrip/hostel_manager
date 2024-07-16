@@ -7,6 +7,7 @@ import 'package:hive/hive.dart';
 import 'package:hostel_manager/app/internal/colors.dart';
 import 'package:hostel_manager/app/internal/ui.dart';
 import 'package:hostel_manager/app/repository/room_repo.dart';
+import 'package:hostel_manager/app/repository/task_repo.dart';
 import 'package:hostel_manager/app/routing/app_router.dart';
 import 'package:provider/provider.dart';
 
@@ -31,6 +32,7 @@ class _AppState extends State<App> {
     return MultiProvider(
         providers: [
           ChangeNotifierProvider(create: (context) => RoomRepo()),
+          ChangeNotifierProvider(create: (context) => TaskRepo()),
         ],
         builder: (context, child) {
           return DevicePreview(

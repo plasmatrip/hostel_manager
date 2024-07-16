@@ -32,9 +32,6 @@ class SettingsView extends StatelessWidget {
         surfaceTintColor: bg,
         shadowColor: const Color(0x3FABB1B9),
         elevation: 10,
-        // shape: RoundedRectangleBorder(
-        //   borderRadius: BorderRadius.circular(8.h),
-        // ),
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(vertical: 20.h, horizontal: 20.w),

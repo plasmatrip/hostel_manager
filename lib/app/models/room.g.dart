@@ -17,7 +17,11 @@ class RoomAdapter extends TypeAdapter<Room> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return Room(
-      images: (fields[0] as List).cast<String>(),
+      image1: fields[0] as String,
+      image2: fields[11] as String,
+      image3: fields[12] as String,
+      image4: fields[13] as String,
+      image5: fields[14] as String,
       name: fields[1] as String,
       price: fields[2] as int,
       description: fields[3] as String,
@@ -34,9 +38,9 @@ class RoomAdapter extends TypeAdapter<Room> {
   @override
   void write(BinaryWriter writer, Room obj) {
     writer
-      ..writeByte(11)
+      ..writeByte(15)
       ..writeByte(0)
-      ..write(obj.images)
+      ..write(obj.image1)
       ..writeByte(1)
       ..write(obj.name)
       ..writeByte(2)
@@ -56,7 +60,15 @@ class RoomAdapter extends TypeAdapter<Room> {
       ..writeByte(9)
       ..write(obj.toilet)
       ..writeByte(10)
-      ..write(obj.bathAccessories);
+      ..write(obj.bathAccessories)
+      ..writeByte(11)
+      ..write(obj.image2)
+      ..writeByte(12)
+      ..write(obj.image3)
+      ..writeByte(13)
+      ..write(obj.image4)
+      ..writeByte(14)
+      ..write(obj.image5);
   }
 
   @override

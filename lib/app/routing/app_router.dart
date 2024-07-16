@@ -9,5 +9,7 @@ class AppRouter extends $AppRouter {
         AutoRoute(page: OnBoardingView.page),
         AutoRoute(page: MainView.page),
         AutoRoute(page: SettingsView.page),
+        AutoRoute(page: NewsView.page),
+        AutoRoute(page: SelectedNewsView.page),
       ];
 }
