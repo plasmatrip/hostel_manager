@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hostel_manager/app/internal/colors.dart';
 import 'package:hostel_manager/app/internal/ui.dart';
-import 'package:hostel_manager/app/pages/main/widgets/room_item.dart';
 import 'package:hostel_manager/app/models/room.dart';
+import 'package:hostel_manager/app/pages/main/widgets/room_item.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class RoomListContainer extends StatefulWidget {

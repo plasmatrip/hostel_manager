@@ -10,10 +10,8 @@ import 'package:hostel_manager/app/internal/colors.dart';
 import 'package:hostel_manager/app/internal/widgets/alert_dialog.dart';
 import 'package:hostel_manager/app/internal/widgets/camera_dialog.dart';
 import 'package:hostel_manager/app/models/settings.dart';
-import 'package:hostel_manager/app/repository/room_repo.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:provider/provider.dart';
 
 class ImageField extends StatelessWidget {
   const ImageField({required this.saveImage, required this.image, super.key});
