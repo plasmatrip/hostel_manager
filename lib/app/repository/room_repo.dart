@@ -25,6 +25,14 @@ class RoomRepo with ChangeNotifier {
   bool editMode = false;
   int editKey = 0;
 
+  String _searchString = '';
+
+  String get searchString => _searchString;
+  set searchString(String value) {
+    _searchString = value;
+    notifyListeners();
+  }
+
   String get name => _room.name;
   set name(String value) {
     _room.name = value;
@@ -149,6 +157,17 @@ class RoomRepo with ChangeNotifier {
   }
 
   Iterable vacancies() {
-    return repo.values; //.where((element) => (element as Room).status == Status.vacancies.index);
+    return repo.values.where((element) => (element as Room).status == Status.vacancies.index);
+  }
+
+  Iterable rooms() {
+    return repo.values.where((element) => _searchString.isEmpty ? true : (element as Room).name.contains(_searchString));
+  }
+
+  void setStatus(int key, int status) async {
+    Room room = repo.get(key);
+    room.status = status;
+    room.save();
+    notifyListeners();
   }
 }

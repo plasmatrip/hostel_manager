@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hostel_manager/app/internal/colors.dart';
-import 'package:hostel_manager/app/internal/ui.dart';
 import 'package:hostel_manager/app/pages/rooms/widgets/fields/bath_accessories_field.dart';
 import 'package:hostel_manager/app/pages/rooms/widgets/fields/bed_filed.dart';
 import 'package:hostel_manager/app/pages/rooms/widgets/fields/description_field.dart';

@@ -8,27 +8,30 @@
 // coverage:ignore-file
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:auto_route/auto_route.dart' as _i8;
-import 'package:flutter/material.dart' as _i9;
-import 'package:hostel_manager/app/models/news.dart' as _i10;
-import 'package:hostel_manager/app/pages/main/main_view.dart' as _i2;
-import 'package:hostel_manager/app/pages/news/news_view.dart' as _i3;
-import 'package:hostel_manager/app/pages/news/selected_news_view.dart' as _i5;
+import 'package:auto_route/auto_route.dart' as _i11;
+import 'package:flutter/material.dart' as _i12;
+import 'package:hostel_manager/app/models/news.dart' as _i13;
+import 'package:hostel_manager/app/pages/main/main_view.dart' as _i3;
+import 'package:hostel_manager/app/pages/news/news_view.dart' as _i4;
+import 'package:hostel_manager/app/pages/news/selected_news_view.dart' as _i7;
 import 'package:hostel_manager/app/pages/onboarding/onboarding_view.dart'
-    as _i4;
+    as _i5;
 import 'package:hostel_manager/app/pages/rooms/add_room.dart' as _i1;
-import 'package:hostel_manager/app/pages/settings/settings_view.dart' as _i6;
-import 'package:hostel_manager/app/pages/spalsh/splash_view.dart' as _i7;
+import 'package:hostel_manager/app/pages/rooms/filters_view.dart' as _i2;
+import 'package:hostel_manager/app/pages/rooms/rooms_view.dart' as _i6;
+import 'package:hostel_manager/app/pages/rooms/selected_room_view.dart' as _i8;
+import 'package:hostel_manager/app/pages/settings/settings_view.dart' as _i9;
+import 'package:hostel_manager/app/pages/spalsh/splash_view.dart' as _i10;
 
-abstract class $AppRouter extends _i8.RootStackRouter {
+abstract class $AppRouter extends _i11.RootStackRouter {
   $AppRouter({super.navigatorKey});
 
   @override
-  final Map<String, _i8.PageFactory> pagesMap = {
+  final Map<String, _i11.PageFactory> pagesMap = {
     AddRoom.name: (routeData) {
       final args =
           routeData.argsAs<AddRoomArgs>(orElse: () => const AddRoomArgs());
-      return _i8.AutoRoutePage<dynamic>(
+      return _i11.AutoRoutePage<dynamic>(
         routeData: routeData,
         child: _i1.AddRoom(
           key: args.key,
@@ -36,44 +39,66 @@ abstract class $AppRouter extends _i8.RootStackRouter {
         ),
       );
     },
-    MainView.name: (routeData) {
-      return _i8.AutoRoutePage<dynamic>(
+    FiltersView.name: (routeData) {
+      return _i11.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i2.MainView(),
+        child: const _i2.FiltersView(),
+      );
+    },
+    MainView.name: (routeData) {
+      return _i11.AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const _i3.MainView(),
       );
     },
     NewsView.name: (routeData) {
-      return _i8.AutoRoutePage<dynamic>(
+      return _i11.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i3.NewsView(),
+        child: const _i4.NewsView(),
       );
     },
     OnBoardingView.name: (routeData) {
-      return _i8.AutoRoutePage<dynamic>(
+      return _i11.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i4.OnBoardingView(),
+        child: const _i5.OnBoardingView(),
+      );
+    },
+    RoomsView.name: (routeData) {
+      return _i11.AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const _i6.RoomsView(),
       );
     },
     SelectedNewsView.name: (routeData) {
       final args = routeData.argsAs<SelectedNewsViewArgs>();
-      return _i8.AutoRoutePage<dynamic>(
+      return _i11.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: _i5.SelectedNewsView(
+        child: _i7.SelectedNewsView(
           news: args.news,
           key: args.key,
         ),
       );
     },
-    SettingsView.name: (routeData) {
-      return _i8.AutoRoutePage<dynamic>(
+    SelectedRoomView.name: (routeData) {
+      final args = routeData.argsAs<SelectedRoomViewArgs>();
+      return _i11.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i6.SettingsView(),
+        child: _i8.SelectedRoomView(
+          roomKey: args.roomKey,
+          key: args.key,
+        ),
+      );
+    },
+    SettingsView.name: (routeData) {
+      return _i11.AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const _i9.SettingsView(),
       );
     },
     SplashView.name: (routeData) {
-      return _i8.AutoRoutePage<dynamic>(
+      return _i11.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i7.SplashView(),
+        child: const _i10.SplashView(),
       );
     },
   };
@@ -81,11 +106,11 @@ abstract class $AppRouter extends _i8.RootStackRouter {
 
 /// generated route for
 /// [_i1.AddRoom]
-class AddRoom extends _i8.PageRouteInfo<AddRoomArgs> {
+class AddRoom extends _i11.PageRouteInfo<AddRoomArgs> {
   AddRoom({
-    _i9.Key? key,
+    _i12.Key? key,
     int? roomKey,
-    List<_i8.PageRouteInfo>? children,
+    List<_i11.PageRouteInfo>? children,
   }) : super(
           AddRoom.name,
           args: AddRoomArgs(
@@ -97,7 +122,8 @@ class AddRoom extends _i8.PageRouteInfo<AddRoomArgs> {
 
   static const String name = 'AddRoom';
 
-  static const _i8.PageInfo<AddRoomArgs> page = _i8.PageInfo<AddRoomArgs>(name);
+  static const _i11.PageInfo<AddRoomArgs> page =
+      _i11.PageInfo<AddRoomArgs>(name);
 }
 
 class AddRoomArgs {
@@ -106,7 +132,7 @@ class AddRoomArgs {
     this.roomKey,
   });
 
-  final _i9.Key? key;
+  final _i12.Key? key;
 
   final int? roomKey;
 
@@ -117,9 +143,23 @@ class AddRoomArgs {
 }
 
 /// generated route for
-/// [_i2.MainView]
-class MainView extends _i8.PageRouteInfo<void> {
-  const MainView({List<_i8.PageRouteInfo>? children})
+/// [_i2.FiltersView]
+class FiltersView extends _i11.PageRouteInfo<void> {
+  const FiltersView({List<_i11.PageRouteInfo>? children})
+      : super(
+          FiltersView.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'FiltersView';
+
+  static const _i11.PageInfo<void> page = _i11.PageInfo<void>(name);
+}
+
+/// generated route for
+/// [_i3.MainView]
+class MainView extends _i11.PageRouteInfo<void> {
+  const MainView({List<_i11.PageRouteInfo>? children})
       : super(
           MainView.name,
           initialChildren: children,
@@ -127,13 +167,13 @@ class MainView extends _i8.PageRouteInfo<void> {
 
   static const String name = 'MainView';
 
-  static const _i8.PageInfo<void> page = _i8.PageInfo<void>(name);
+  static const _i11.PageInfo<void> page = _i11.PageInfo<void>(name);
 }
 
 /// generated route for
-/// [_i3.NewsView]
-class NewsView extends _i8.PageRouteInfo<void> {
-  const NewsView({List<_i8.PageRouteInfo>? children})
+/// [_i4.NewsView]
+class NewsView extends _i11.PageRouteInfo<void> {
+  const NewsView({List<_i11.PageRouteInfo>? children})
       : super(
           NewsView.name,
           initialChildren: children,
@@ -141,13 +181,13 @@ class NewsView extends _i8.PageRouteInfo<void> {
 
   static const String name = 'NewsView';
 
-  static const _i8.PageInfo<void> page = _i8.PageInfo<void>(name);
+  static const _i11.PageInfo<void> page = _i11.PageInfo<void>(name);
 }
 
 /// generated route for
-/// [_i4.OnBoardingView]
-class OnBoardingView extends _i8.PageRouteInfo<void> {
-  const OnBoardingView({List<_i8.PageRouteInfo>? children})
+/// [_i5.OnBoardingView]
+class OnBoardingView extends _i11.PageRouteInfo<void> {
+  const OnBoardingView({List<_i11.PageRouteInfo>? children})
       : super(
           OnBoardingView.name,
           initialChildren: children,
@@ -155,16 +195,30 @@ class OnBoardingView extends _i8.PageRouteInfo<void> {
 
   static const String name = 'OnBoardingView';
 
-  static const _i8.PageInfo<void> page = _i8.PageInfo<void>(name);
+  static const _i11.PageInfo<void> page = _i11.PageInfo<void>(name);
 }
 
 /// generated route for
-/// [_i5.SelectedNewsView]
-class SelectedNewsView extends _i8.PageRouteInfo<SelectedNewsViewArgs> {
+/// [_i6.RoomsView]
+class RoomsView extends _i11.PageRouteInfo<void> {
+  const RoomsView({List<_i11.PageRouteInfo>? children})
+      : super(
+          RoomsView.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'RoomsView';
+
+  static const _i11.PageInfo<void> page = _i11.PageInfo<void>(name);
+}
+
+/// generated route for
+/// [_i7.SelectedNewsView]
+class SelectedNewsView extends _i11.PageRouteInfo<SelectedNewsViewArgs> {
   SelectedNewsView({
-    required _i10.News news,
-    _i9.Key? key,
-    List<_i8.PageRouteInfo>? children,
+    required _i13.News news,
+    _i12.Key? key,
+    List<_i11.PageRouteInfo>? children,
   }) : super(
           SelectedNewsView.name,
           args: SelectedNewsViewArgs(
@@ -176,8 +230,8 @@ class SelectedNewsView extends _i8.PageRouteInfo<SelectedNewsViewArgs> {
 
   static const String name = 'SelectedNewsView';
 
-  static const _i8.PageInfo<SelectedNewsViewArgs> page =
-      _i8.PageInfo<SelectedNewsViewArgs>(name);
+  static const _i11.PageInfo<SelectedNewsViewArgs> page =
+      _i11.PageInfo<SelectedNewsViewArgs>(name);
 }
 
 class SelectedNewsViewArgs {
@@ -186,9 +240,9 @@ class SelectedNewsViewArgs {
     this.key,
   });
 
-  final _i10.News news;
+  final _i13.News news;
 
-  final _i9.Key? key;
+  final _i12.Key? key;
 
   @override
   String toString() {
@@ -197,9 +251,47 @@ class SelectedNewsViewArgs {
 }
 
 /// generated route for
-/// [_i6.SettingsView]
-class SettingsView extends _i8.PageRouteInfo<void> {
-  const SettingsView({List<_i8.PageRouteInfo>? children})
+/// [_i8.SelectedRoomView]
+class SelectedRoomView extends _i11.PageRouteInfo<SelectedRoomViewArgs> {
+  SelectedRoomView({
+    required int roomKey,
+    _i12.Key? key,
+    List<_i11.PageRouteInfo>? children,
+  }) : super(
+          SelectedRoomView.name,
+          args: SelectedRoomViewArgs(
+            roomKey: roomKey,
+            key: key,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'SelectedRoomView';
+
+  static const _i11.PageInfo<SelectedRoomViewArgs> page =
+      _i11.PageInfo<SelectedRoomViewArgs>(name);
+}
+
+class SelectedRoomViewArgs {
+  const SelectedRoomViewArgs({
+    required this.roomKey,
+    this.key,
+  });
+
+  final int roomKey;
+
+  final _i12.Key? key;
+
+  @override
+  String toString() {
+    return 'SelectedRoomViewArgs{roomKey: $roomKey, key: $key}';
+  }
+}
+
+/// generated route for
+/// [_i9.SettingsView]
+class SettingsView extends _i11.PageRouteInfo<void> {
+  const SettingsView({List<_i11.PageRouteInfo>? children})
       : super(
           SettingsView.name,
           initialChildren: children,
@@ -207,13 +299,13 @@ class SettingsView extends _i8.PageRouteInfo<void> {
 
   static const String name = 'SettingsView';
 
-  static const _i8.PageInfo<void> page = _i8.PageInfo<void>(name);
+  static const _i11.PageInfo<void> page = _i11.PageInfo<void>(name);
 }
 
 /// generated route for
-/// [_i7.SplashView]
-class SplashView extends _i8.PageRouteInfo<void> {
-  const SplashView({List<_i8.PageRouteInfo>? children})
+/// [_i10.SplashView]
+class SplashView extends _i11.PageRouteInfo<void> {
+  const SplashView({List<_i11.PageRouteInfo>? children})
       : super(
           SplashView.name,
           initialChildren: children,
@@ -221,5 +313,5 @@ class SplashView extends _i8.PageRouteInfo<void> {
 
   static const String name = 'SplashView';
 
-  static const _i8.PageInfo<void> page = _i8.PageInfo<void>(name);
+  static const _i11.PageInfo<void> page = _i11.PageInfo<void>(name);
 }
