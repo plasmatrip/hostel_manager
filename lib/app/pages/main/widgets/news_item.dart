@@ -1,8 +1,10 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hostel_manager/app/internal/colors.dart';
 import 'package:hostel_manager/app/internal/ui.dart';
 import 'package:hostel_manager/app/models/news.dart';
+import 'package:hostel_manager/app/routing/app_router.gr.dart';
 
 class NewsItem extends StatelessWidget {
   const NewsItem({
@@ -16,7 +18,7 @@ class NewsItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
-      onTap: () {},
+      onTap: () async => AutoRouter.of(context).push(SelectedNewsView(news: news)),
       child: SizedBox(
         width: 311.w,
         height: 128.h,

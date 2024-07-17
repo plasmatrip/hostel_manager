@@ -45,5 +45,9 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>Этому приложению нужен доступ к камере телефона для того чтобы вы могли сфотографировать номера хостела.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Этому приложению нужен доступ к вашей библиотеке фотографий чтобы вы могли выбрать фотографию номеров хостела.</string>
 </dict>
 </plist>

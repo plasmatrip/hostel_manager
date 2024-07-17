@@ -7,9 +7,15 @@ enum Status { vacancies, booked, cleaning, repair }
 
 enum Floor { first, second, third, fourth }
 
-enum Bed { double, single, threeBeds, twoBeds, kingSize, multipleBeds }
+enum Bed { double, threeBeds, single, twoBeds, kingSize, multipleBeds }
 
-enum View { sea, garden, city, mall }
+enum RoomView { sea, garden, city, mall }
+
+const List<String> status = ['Свободна', 'Занята', 'Уборка', 'Ремонт'];
+
+const List<String> bed = ['1 двуспальная кровать', '3 кровати', '1 односпальная кровать', '2 кровати', 'Кровать “king-size”', 'Несколько кроватей'];
+
+const List<String> view = ['Sea view', 'Garden view', 'City view', 'Mall view'];
 
 class RoomRepo with ChangeNotifier {
   Box repo = Hive.box<Room>(Boxes.room);
@@ -75,7 +81,7 @@ class RoomRepo with ChangeNotifier {
 
   int? get floor => _room.floor;
   set floor(int? value) {
-    _room.status = value;
+    _room.floor = value;
     notifyListeners();
   }
 
@@ -140,5 +146,9 @@ class RoomRepo with ChangeNotifier {
 
   bool canSave() {
     return _room.isNotEmpty();
+  }
+
+  Iterable vacancies() {
+    return repo.values; //.where((element) => (element as Room).status == Status.vacancies.index);
   }
 }

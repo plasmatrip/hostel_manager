@@ -11,5 +11,6 @@ class AppRouter extends $AppRouter {
         AutoRoute(page: SettingsView.page),
         AutoRoute(page: NewsView.page),
         AutoRoute(page: SelectedNewsView.page),
+        AutoRoute(page: AddRoom.page),
       ];
 }
