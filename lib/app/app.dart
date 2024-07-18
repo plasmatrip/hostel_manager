@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive/hive.dart';
 import 'package:hostel_manager/app/internal/colors.dart';
 import 'package:hostel_manager/app/internal/ui.dart';
+import 'package:hostel_manager/app/repository/booking_repo.dart';
 import 'package:hostel_manager/app/repository/room_repo.dart';
 import 'package:hostel_manager/app/repository/task_repo.dart';
 import 'package:hostel_manager/app/routing/app_router.dart';
@@ -33,6 +34,7 @@ class _AppState extends State<App> {
         providers: [
           ChangeNotifierProvider(create: (context) => RoomRepo()),
           ChangeNotifierProvider(create: (context) => TaskRepo()),
+          ChangeNotifierProvider(create: (context) => BookingRepo()),
         ],
         builder: (context, child) {
           return DevicePreview(

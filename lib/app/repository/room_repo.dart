@@ -16,9 +16,33 @@ enum Status {
   final int mask;
 }
 
-enum Floor { first, second, third, fourth }
+enum Floor {
+  first(mask: 0x1),
+  second(mask: 0x2),
+  third(mask: 0x4),
+  fourth(mask: 0x8);
 
-enum Bed { double, threeBeds, single, twoBeds, kingSize, multipleBeds }
+  const Floor({
+    required this.mask,
+  });
+
+  final int mask;
+}
+
+enum Bed {
+  double(mask: 0x1),
+  threeBeds(mask: 0x2),
+  single(mask: 0x4),
+  twoBeds(mask: 0x8),
+  kingSize(mask: 0x16),
+  multipleBeds(mask: 0x32);
+
+  const Bed({
+    required this.mask,
+  });
+
+  final int mask;
+}
 
 enum RoomView {
   sea(mask: 0x1),
@@ -38,11 +62,6 @@ const List<String> status = ['Свободна', 'Занята', 'Уборка',
 const List<String> bed = ['1 двуспальная кровать', '3 кровати', '1 односпальная кровать', '2 кровати', 'Кровать “king-size”', 'Несколько кроватей'];
 
 const List<String> view = ['Sea view', 'Garden view', 'City view', 'Mall view'];
-
-const mask1 = 0x1;
-const mask2 = 0x2;
-const mask3 = 0x4;
-const mask4 = 0x8;
 
 class RoomRepo with ChangeNotifier {
   Box repo = Hive.box<Room>(Boxes.room);
@@ -188,7 +207,80 @@ class RoomRepo with ChangeNotifier {
   }
 
   Iterable rooms() {
-    return repo.values.where((element) => _searchString.isEmpty ? true : (element as Room).name.contains(_searchString));
+    Iterable rooms = repo.values.where((element) => _searchString.isEmpty ? true : element.name.contains(_searchString));
+
+    if (_useFilters) {
+      rooms = rooms.where((element) => _toiletFilterUse == null ? true : (element as Room).toilet == _toiletFilterUse);
+      rooms = rooms.where((element) => _wifiFilterUse == null ? true : element.wifi == _wifiFilterUse);
+
+      if (_viewFilterUse != 0) {
+        if (_viewFilterUse & RoomView.sea.mask == RoomView.sea.mask) {
+          rooms = rooms.where((element) => element.view == RoomView.sea.index);
+        }
+        if (_viewFilterUse & RoomView.garden.mask == RoomView.garden.mask) {
+          rooms = rooms.where((element) => element.view == RoomView.garden.index);
+        }
+        if (_viewFilterUse & RoomView.city.mask == RoomView.city.mask) {
+          rooms = rooms.where((element) => element.view == RoomView.city.index);
+        }
+        if (_viewFilterUse & RoomView.mall.mask == RoomView.mall.mask) {
+          rooms = rooms.where((element) => element.view == RoomView.mall.index);
+        }
+      }
+
+      if (_bedFilterUse != 0) {
+        if (_bedFilterUse & Bed.double.mask == Bed.double.mask) {
+          rooms = rooms.where((element) => element.bed == Bed.double.index);
+        }
+        if (_bedFilterUse & Bed.twoBeds.mask == Bed.twoBeds.mask) {
+          rooms = rooms.where((element) => element.bed == Bed.twoBeds.index);
+        }
+        if (_bedFilterUse & Bed.single.mask == Bed.single.mask) {
+          rooms = rooms.where((element) => element.bed == Bed.single.index);
+        }
+        if (_bedFilterUse & Bed.threeBeds.mask == Bed.threeBeds.mask) {
+          rooms = rooms.where((element) => element.bed == Bed.threeBeds.index);
+        }
+        if (_bedFilterUse & Bed.kingSize.mask == Bed.kingSize.mask) {
+          rooms = rooms.where((element) => element.bed == Bed.kingSize.index);
+        }
+        if (_bedFilterUse & Bed.multipleBeds.mask == Bed.multipleBeds.mask) {
+          rooms = rooms.where((element) => element.bed == Bed.multipleBeds.index);
+        }
+      }
+
+      if (_floorFilterUse != 0) {
+        if (_floorFilterUse & Floor.first.mask == Floor.first.mask) {
+          rooms = rooms.where((element) => element.floor == Floor.first.index);
+        }
+        if (_floorFilterUse & Floor.second.mask == Floor.second.mask) {
+          rooms = rooms.where((element) => element.floor == Floor.second.index);
+        }
+        if (_floorFilterUse & Floor.third.mask == Floor.third.mask) {
+          rooms = rooms.where((element) => element.floor == Floor.third.index);
+        }
+        if (_floorFilterUse & Floor.fourth.mask == Floor.fourth.mask) {
+          rooms = rooms.where((element) => element.floor == Floor.fourth.index);
+        }
+      }
+
+      if (_statusFilterUse != 0) {
+        if (_statusFilterUse & Status.vacancies.mask == Status.vacancies.mask) {
+          rooms = rooms.where((element) => element.status == Status.vacancies.index);
+        }
+        if (_statusFilterUse & Status.booked.mask == Status.booked.mask) {
+          rooms = rooms.where((element) => element.status == Status.booked.index);
+        }
+        if (_statusFilterUse & Status.cleaning.mask == Status.cleaning.mask) {
+          rooms = rooms.where((element) => element.status == Status.cleaning.index);
+        }
+        if (_statusFilterUse & Status.repair.mask == Status.repair.mask) {
+          rooms = rooms.where((element) => element.status == Status.repair.index);
+        }
+      }
+    }
+
+    return rooms;
   }
 
   void setStatus(int key, int status) async {
@@ -217,16 +309,32 @@ class RoomRepo with ChangeNotifier {
     return repo.values.any((element) => (element as Room).status == Status.vacancies.index);
   }
 
-  //
-  //Filters
-  //
-
   bool? _wifiFilter;
   bool? _toiletFilter;
   int _viewFilter = 0;
-  int? _bedFilter;
-  int? _floorFilter;
-  int? _statusFilter;
+  int _bedFilter = 0;
+  int _floorFilter = 0;
+  int _statusFilter = 0;
+
+  bool? _wifiFilterUse;
+  bool? _toiletFilterUse;
+  int _viewFilterUse = 0;
+  int _bedFilterUse = 0;
+  int _floorFilterUse = 0;
+  int _statusFilterUse = 0;
+
+  bool _useFilters = false;
+
+  void setFileters() {
+    _useFilters = true;
+    _wifiFilterUse = _wifiFilter;
+    _toiletFilterUse = _toiletFilter;
+    _viewFilterUse = _viewFilter;
+    _bedFilterUse = _bedFilter;
+    _floorFilterUse = _floorFilter;
+    _statusFilterUse = _statusFilter;
+    notifyListeners();
+  }
 
   bool? get wifiFilter => _wifiFilter;
   set wifiFilter(bool? value) {
@@ -246,25 +354,49 @@ class RoomRepo with ChangeNotifier {
     notifyListeners();
   }
 
-  int? get bedFilter => _bedFilter;
-  set bedFilter(int? value) {
+  int get bedFilter => _bedFilter;
+  set bedFilter(int value) {
     _bedFilter = value;
     notifyListeners();
   }
 
-  int? get floorFilter => _floorFilter;
-  set floorFilter(int? value) {
+  int get floorFilter => _floorFilter;
+  set floorFilter(int value) {
     _floorFilter = value;
     notifyListeners();
   }
 
-  int? get statusFilter => _statusFilter;
-  set statusFilter(int? value) {
+  int get statusFilter => _statusFilter;
+  set statusFilter(int value) {
     _statusFilter = value;
     notifyListeners();
   }
 
   bool haveFilter() {
-    return _wifiFilter != null || _toiletFilter != null || _viewFilter != null || _bedFilter != null || _floorFilter != null || _statusFilter != null;
+    return _wifiFilter != null ||
+        _toiletFilter != null ||
+        _viewFilter != 0 ||
+        _bedFilter != 0 ||
+        _floorFilter != 0 ||
+        _statusFilter != 0 ||
+        _searchString.isNotEmpty;
+  }
+
+  void clearFilters() {
+    _wifiFilter = null;
+    _toiletFilter = null;
+    _viewFilter = 0;
+    _bedFilter = 0;
+    _floorFilter = 0;
+    _statusFilter = 0;
+    _useFilters = false;
+    _wifiFilterUse = null;
+    _toiletFilterUse = null;
+    _viewFilterUse = 0;
+    _bedFilterUse = 0;
+    _floorFilterUse = 0;
+    _statusFilterUse = 0;
+    _useFilters = false;
+    notifyListeners();
   }
 }

@@ -76,34 +76,30 @@ class _ViewFiltersState extends State<ViewFilters> {
                   2 => context.read<RoomRepo>().viewFilter = context.read<RoomRepo>().viewFilter ^ RoomView.city.mask,
                   _ => context.read<RoomRepo>().viewFilter = context.read<RoomRepo>().viewFilter ^ RoomView.mall.mask,
                 },
-                child: SizedBox(
-                  height: 24.h,
-                  width: 148.w,
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      SvgPicture.asset(
-                        switch (i) {
-                          0 => context.watch<RoomRepo>().viewFilter & RoomView.sea.mask == RoomView.sea.mask
-                              ? 'assets/icons/Property 1=on.svg'
-                              : 'assets/icons/Property 1=off.svg',
-                          1 => context.watch<RoomRepo>().viewFilter & RoomView.garden.mask == RoomView.garden.mask
-                              ? 'assets/icons/Property 1=on.svg'
-                              : 'assets/icons/Property 1=off.svg',
-                          2 => context.watch<RoomRepo>().viewFilter & RoomView.city.mask == RoomView.city.mask
-                              ? 'assets/icons/Property 1=on.svg'
-                              : 'assets/icons/Property 1=off.svg',
-                          _ => context.watch<RoomRepo>().viewFilter & RoomView.mall.mask == RoomView.mall.mask
-                              ? 'assets/icons/Property 1=on.svg'
-                              : 'assets/icons/Property 1=off.svg',
-                        },
-                        width: 24.h,
-                        height: 24.h,
-                      ),
-                      SizedBox(width: 4.w),
-                      Text(view[RoomView.sea.index], style: context.s13w500.copyWith(color: greyDark, letterSpacing: -0.7.w)),
-                    ],
-                  ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    SvgPicture.asset(
+                      switch (i) {
+                        0 => context.watch<RoomRepo>().viewFilter & RoomView.sea.mask == RoomView.sea.mask
+                            ? 'assets/icons/Property 1=on.svg'
+                            : 'assets/icons/Property 1=off.svg',
+                        1 => context.watch<RoomRepo>().viewFilter & RoomView.garden.mask == RoomView.garden.mask
+                            ? 'assets/icons/Property 1=on.svg'
+                            : 'assets/icons/Property 1=off.svg',
+                        2 => context.watch<RoomRepo>().viewFilter & RoomView.city.mask == RoomView.city.mask
+                            ? 'assets/icons/Property 1=on.svg'
+                            : 'assets/icons/Property 1=off.svg',
+                        _ => context.watch<RoomRepo>().viewFilter & RoomView.mall.mask == RoomView.mall.mask
+                            ? 'assets/icons/Property 1=on.svg'
+                            : 'assets/icons/Property 1=off.svg',
+                      },
+                      width: 24.h,
+                      height: 24.h,
+                    ),
+                    SizedBox(width: 4.w),
+                    Text(view[i], style: context.s13w500.copyWith(color: greyDark, letterSpacing: -0.7.w)),
+                  ],
                 ),
               ),
               SizedBox(height: 12.h),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:hostel_manager/app/internal/colors.dart';
 import 'package:hostel_manager/app/internal/ui.dart';
 import 'package:hostel_manager/app/repository/room_repo.dart';
@@ -19,7 +20,7 @@ class _StatusFiltersState extends State<StatusFilters> {
 
   @override
   void initState() {
-    if (context.read<RoomRepo>().statusFilter != null) {
+    if (context.read<RoomRepo>().statusFilter != 0) {
       expanded = true;
     }
     super.initState();
@@ -66,6 +67,43 @@ class _StatusFiltersState extends State<StatusFilters> {
           ),
           if (expanded) ...[
             SizedBox(height: 12.h),
+            for (int i = 0; i < 4; i++) ...[
+              GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onTap: () => switch (i) {
+                  0 => context.read<RoomRepo>().statusFilter = context.read<RoomRepo>().statusFilter ^ Status.vacancies.mask,
+                  1 => context.read<RoomRepo>().statusFilter = context.read<RoomRepo>().statusFilter ^ Status.booked.mask,
+                  2 => context.read<RoomRepo>().statusFilter = context.read<RoomRepo>().statusFilter ^ Status.cleaning.mask,
+                  _ => context.read<RoomRepo>().statusFilter = context.read<RoomRepo>().statusFilter ^ Status.repair.mask,
+                },
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    SvgPicture.asset(
+                      switch (i) {
+                        0 => context.watch<RoomRepo>().statusFilter & Status.vacancies.mask == Status.vacancies.mask
+                            ? 'assets/icons/Property 1=on.svg'
+                            : 'assets/icons/Property 1=off.svg',
+                        1 => context.watch<RoomRepo>().statusFilter & Status.booked.mask == Status.booked.mask
+                            ? 'assets/icons/Property 1=on.svg'
+                            : 'assets/icons/Property 1=off.svg',
+                        2 => context.watch<RoomRepo>().statusFilter & Status.cleaning.mask == Status.cleaning.mask
+                            ? 'assets/icons/Property 1=on.svg'
+                            : 'assets/icons/Property 1=off.svg',
+                        _ => context.watch<RoomRepo>().statusFilter & Status.repair.mask == Status.repair.mask
+                            ? 'assets/icons/Property 1=on.svg'
+                            : 'assets/icons/Property 1=off.svg',
+                      },
+                      width: 24.h,
+                      height: 24.h,
+                    ),
+                    SizedBox(width: 4.w),
+                    Text(status[i], style: context.s13w500.copyWith(color: greyDark, letterSpacing: -0.7.w)),
+                  ],
+                ),
+              ),
+              SizedBox(height: 12.h),
+            ],
           ],
         ],
       ),

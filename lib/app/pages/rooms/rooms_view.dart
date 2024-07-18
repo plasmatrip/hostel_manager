@@ -5,8 +5,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:hostel_manager/app/internal/colors.dart';
 import 'package:hostel_manager/app/internal/ui.dart';
 import 'package:hostel_manager/app/models/room.dart';
-import 'package:hostel_manager/app/pages/rooms/widgets/calendar_button.dart';
 import 'package:hostel_manager/app/pages/rooms/widgets/add_room_button.dart';
+import 'package:hostel_manager/app/pages/rooms/widgets/calendar_button.dart';
 import 'package:hostel_manager/app/pages/rooms/widgets/room_item.dart';
 import 'package:hostel_manager/app/pages/rooms/widgets/search_block.dart';
 import 'package:hostel_manager/app/repository/room_repo.dart';
@@ -15,7 +15,9 @@ import 'package:provider/provider.dart';
 
 @RoutePage()
 class RoomsView extends StatelessWidget {
-  const RoomsView({super.key});
+  const RoomsView({super.key, this.booking = false});
+
+  final bool booking;
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +72,10 @@ class RoomsView extends StatelessWidget {
                   separatorBuilder: (context, index) => SizedBox(height: 16.h),
                   itemBuilder: (context, index) {
                     Room room = rooms.elementAt(index);
-                    return RoomItem(room: room);
+                    return RoomItem(
+                      room: room,
+                      booking: booking,
+                    );
                   },
                 ),
               ),
@@ -78,11 +83,13 @@ class RoomsView extends StatelessWidget {
           ),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-        floatingActionButton: FilledButton(
-          onPressed: context.watch<RoomRepo>().canBooked() ? () {} : null,
-          style: context.extraBtn,
-          child: const Text('Новое бронирование'),
-        ),
+        floatingActionButton: booking
+            ? null
+            : FilledButton(
+                onPressed: context.watch<RoomRepo>().canBooked() ? () async => AutoRouter.of(context).push(AddBooking()) : null,
+                style: context.extraBtn,
+                child: const Text('Новое бронирование'),
+              ),
       ),
     );
   }

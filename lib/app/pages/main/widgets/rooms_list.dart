@@ -24,7 +24,7 @@ class RoomsList extends StatelessWidget {
             Text('Свободные номера', style: context.s20w500.copyWith(color: greyBlack)),
             GestureDetector(
               behavior: HitTestBehavior.opaque,
-              onTap: () async => AutoRouter.of(context).push(const RoomsView()),
+              onTap: () async => AutoRouter.of(context).push(RoomsView()),
               child: Text('Все номера', style: context.textUnderline),
             ),
           ],

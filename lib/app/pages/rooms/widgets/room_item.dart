@@ -17,17 +17,25 @@ import 'package:provider/provider.dart';
 class RoomItem extends StatelessWidget {
   const RoomItem({
     required this.room,
+    required this.booking,
     super.key,
   });
 
   final Room room;
+  final bool booking;
 
   @override
   Widget build(BuildContext context) {
     final GlobalKey globalKey = GlobalKey();
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
-      onTap: () async => AutoRouter.of(context).push(SelectedRoomView(roomKey: room.key)),
+      onTap: () async {
+        if (booking) {
+          AutoRouter.of(context).maybePop(room);
+        } else {
+          AutoRouter.of(context).push(SelectedRoomView(roomKey: room.key));
+        }
+      },
       child: Container(
         width: 335.w,
         height: 140.h,

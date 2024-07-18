@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hostel_manager/app/internal/colors.dart';
 import 'package:hostel_manager/app/internal/widgets/delete_dalog.dart';
-import 'package:hostel_manager/app/internal/widgets/edit_delete_dialog.dart';
 import 'package:hostel_manager/app/pages/rooms/widgets/fields/bath_accessories_field.dart';
 import 'package:hostel_manager/app/pages/rooms/widgets/fields/bed_filed.dart';
 import 'package:hostel_manager/app/pages/rooms/widgets/fields/description_field.dart';

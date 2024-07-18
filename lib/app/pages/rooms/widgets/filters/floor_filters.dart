@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:hostel_manager/app/internal/colors.dart';
 import 'package:hostel_manager/app/internal/ui.dart';
 import 'package:hostel_manager/app/repository/room_repo.dart';
@@ -19,7 +20,7 @@ class _FloorFiltersState extends State<FloorFilters> {
 
   @override
   void initState() {
-    if (context.read<RoomRepo>().floorFilter != null) {
+    if (context.read<RoomRepo>().floorFilter != 0) {
       expanded = true;
     }
     super.initState();
@@ -66,6 +67,43 @@ class _FloorFiltersState extends State<FloorFilters> {
           ),
           if (expanded) ...[
             SizedBox(height: 12.h),
+            for (int i = 0; i < 4; i++) ...[
+              GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onTap: () => switch (i) {
+                  0 => context.read<RoomRepo>().floorFilter = context.read<RoomRepo>().floorFilter ^ Floor.first.mask,
+                  1 => context.read<RoomRepo>().floorFilter = context.read<RoomRepo>().floorFilter ^ Floor.second.mask,
+                  2 => context.read<RoomRepo>().floorFilter = context.read<RoomRepo>().floorFilter ^ Floor.third.mask,
+                  _ => context.read<RoomRepo>().floorFilter = context.read<RoomRepo>().floorFilter ^ Floor.fourth.mask,
+                },
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    SvgPicture.asset(
+                      switch (i) {
+                        0 => context.watch<RoomRepo>().floorFilter & Floor.first.mask == Floor.first.mask
+                            ? 'assets/icons/Property 1=on.svg'
+                            : 'assets/icons/Property 1=off.svg',
+                        1 => context.watch<RoomRepo>().floorFilter & Floor.second.mask == Floor.second.mask
+                            ? 'assets/icons/Property 1=on.svg'
+                            : 'assets/icons/Property 1=off.svg',
+                        2 => context.watch<RoomRepo>().floorFilter & Floor.third.mask == Floor.third.mask
+                            ? 'assets/icons/Property 1=on.svg'
+                            : 'assets/icons/Property 1=off.svg',
+                        _ => context.watch<RoomRepo>().floorFilter & Floor.fourth.mask == Floor.fourth.mask
+                            ? 'assets/icons/Property 1=on.svg'
+                            : 'assets/icons/Property 1=off.svg',
+                      },
+                      width: 24.h,
+                      height: 24.h,
+                    ),
+                    SizedBox(width: 4.w),
+                    Text('${i + 1}', style: context.s13w500.copyWith(color: greyDark, letterSpacing: -0.7.w)),
+                  ],
+                ),
+              ),
+              SizedBox(height: 12.h),
+            ],
           ],
         ],
       ),

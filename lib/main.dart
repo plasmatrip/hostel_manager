@@ -4,6 +4,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hostel_manager/app/app.dart';
 import 'package:hostel_manager/app/data/news_data.dart';
 import 'package:hostel_manager/app/internal/boxes.dart';
+import 'package:hostel_manager/app/models/booking.dart';
 import 'package:hostel_manager/app/models/news.dart';
 import 'package:hostel_manager/app/models/room.dart';
 import 'package:hostel_manager/app/models/settings.dart';
@@ -19,11 +20,13 @@ void main() async {
   Hive.registerAdapter<Room>(RoomAdapter());
   Hive.registerAdapter<Task>(TaskAdapter());
   Hive.registerAdapter<News>(NewsAdapter());
+  Hive.registerAdapter<Booking>(BookingAdapter());
 
   await Hive.openBox<Settings>(Boxes.settings);
   await Hive.openBox<Room>(Boxes.room);
   await Hive.openBox<Task>(Boxes.task);
   await Hive.openBox<News>(Boxes.news);
+  await Hive.openBox<Booking>(Boxes.booking);
 
   if (Hive.box<News>(Boxes.news).isEmpty) {
     await NewsData.addData();

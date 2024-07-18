@@ -62,6 +62,7 @@ class _RoomListContainerState extends State<RoomListContainer> {
                     ),
                   )
                 : ListView.separated(
+                    controller: controller,
                     scrollDirection: Axis.horizontal,
                     itemCount: widget.vacancies.length,
                     separatorBuilder: (context, index) => SizedBox(width: 12.w),

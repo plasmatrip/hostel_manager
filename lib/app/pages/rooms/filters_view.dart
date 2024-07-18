@@ -24,7 +24,9 @@ class FiltersView extends StatelessWidget {
       appBar: AppBar(
         leading: GestureDetector(
           behavior: HitTestBehavior.opaque,
-          onTap: () => AutoRouter.of(context).removeLast(),
+          onTap: () {
+            AutoRouter.of(context).removeLast();
+          },
           child: Icon(
             Icons.arrow_back_ios,
             color: colorsAcc,
@@ -37,11 +39,8 @@ class FiltersView extends StatelessWidget {
             child: GestureDetector(
               behavior: HitTestBehavior.opaque,
               onTap: () {
-                if (context.read<RoomRepo>().editMode) {
-                } else {
-                  context.read<RoomRepo>().clear();
-                  AutoRouter.of(context).removeLast();
-                }
+                context.read<RoomRepo>().clearFilters();
+                AutoRouter.of(context).removeLast();
               },
               child: SvgPicture.asset('assets/icons/Close Circle.svg', width: 24.h, height: 24.h),
             ),
@@ -78,7 +77,12 @@ class FiltersView extends StatelessWidget {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FilledButton(
-        onPressed: context.watch<RoomRepo>().haveFilter() ? () {} : null,
+        onPressed: context.watch<RoomRepo>().haveFilter()
+            ? () {
+                context.read<RoomRepo>().setFileters();
+                AutoRouter.of(context).removeLast();
+              }
+            : null,
         style: context.extraBtn,
         child: const Text('Применить'),
       ),

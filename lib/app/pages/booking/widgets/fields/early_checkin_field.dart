@@ -3,11 +3,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hostel_manager/app/internal/colors.dart';
 import 'package:hostel_manager/app/internal/ui.dart';
-import 'package:hostel_manager/app/repository/room_repo.dart';
+import 'package:hostel_manager/app/repository/booking_repo.dart';
 import 'package:provider/provider.dart';
 
-class WifiField extends StatelessWidget {
-  const WifiField({super.key});
+class EarlyCheckinField extends StatelessWidget {
+  const EarlyCheckinField({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -36,13 +36,13 @@ class WifiField extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Wi-Fi', style: context.s14w400.copyWith(color: greyGrey)),
+              Text('Раннее заселение', style: context.s14w400.copyWith(color: greyGrey)),
               SizedBox(height: 6.h),
               Row(
                 children: [
                   GestureDetector(
                     behavior: HitTestBehavior.opaque,
-                    onTap: () => context.read<RoomRepo>().wifi = true,
+                    onTap: () => context.read<BookingRepo>().earlyCheckin = true,
                     child: SizedBox(
                       height: 24.h,
                       width: 148.w,
@@ -50,9 +50,9 @@ class WifiField extends StatelessWidget {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           SvgPicture.asset(
-                            context.watch<RoomRepo>().wifi == null
+                            context.watch<BookingRepo>().earlyCheckin == null
                                 ? 'assets/icons/Property 1=off-1.svg'
-                                : context.read<RoomRepo>().wifi == true
+                                : context.read<BookingRepo>().earlyCheckin == true
                                     ? 'assets/icons/Property 1=on-1.svg'
                                     : 'assets/icons/Property 1=off-1.svg',
                             width: 24.h,
@@ -66,7 +66,7 @@ class WifiField extends StatelessWidget {
                   ),
                   GestureDetector(
                     behavior: HitTestBehavior.opaque,
-                    onTap: () => context.read<RoomRepo>().wifi = false,
+                    onTap: () => context.read<BookingRepo>().earlyCheckin = false,
                     child: SizedBox(
                       height: 24.h,
                       width: 148.w,
@@ -74,9 +74,9 @@ class WifiField extends StatelessWidget {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           SvgPicture.asset(
-                            context.read<RoomRepo>().wifi == null
+                            context.read<BookingRepo>().earlyCheckin == null
                                 ? 'assets/icons/Property 1=off-1.svg'
-                                : context.read<RoomRepo>().wifi == false
+                                : context.read<BookingRepo>().earlyCheckin == false
                                     ? 'assets/icons/Property 1=on-1.svg'
                                     : 'assets/icons/Property 1=off-1.svg',
                             width: 24.h,
