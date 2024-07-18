@@ -3,19 +3,46 @@ import 'package:hive/hive.dart';
 import 'package:hostel_manager/app/internal/boxes.dart';
 import 'package:hostel_manager/app/models/room.dart';
 
-enum Status { vacancies, booked, cleaning, repair }
+enum Status {
+  vacancies(mask: 0x1),
+  booked(mask: 0x2),
+  cleaning(mask: 0x4),
+  repair(mask: 0x8);
+
+  const Status({
+    required this.mask,
+  });
+
+  final int mask;
+}
 
 enum Floor { first, second, third, fourth }
 
 enum Bed { double, threeBeds, single, twoBeds, kingSize, multipleBeds }
 
-enum RoomView { sea, garden, city, mall }
+enum RoomView {
+  sea(mask: 0x1),
+  garden(mask: 0x2),
+  city(mask: 0x4),
+  mall(mask: 0x8);
+
+  const RoomView({
+    required this.mask,
+  });
+
+  final int mask;
+}
 
 const List<String> status = ['Свободна', 'Занята', 'Уборка', 'Ремонт'];
 
 const List<String> bed = ['1 двуспальная кровать', '3 кровати', '1 односпальная кровать', '2 кровати', 'Кровать “king-size”', 'Несколько кроватей'];
 
 const List<String> view = ['Sea view', 'Garden view', 'City view', 'Mall view'];
+
+const mask1 = 0x1;
+const mask2 = 0x2;
+const mask3 = 0x4;
+const mask4 = 0x8;
 
 class RoomRepo with ChangeNotifier {
   Box repo = Hive.box<Room>(Boxes.room);
@@ -169,5 +196,75 @@ class RoomRepo with ChangeNotifier {
     room.status = status;
     room.save();
     notifyListeners();
+  }
+
+  int bookedRooms() {
+    return repo.values.where((element) => (element as Room).status == Status.booked.index).length;
+  }
+
+  int vacantRooms() {
+    return repo.values.where((element) => (element as Room).status == Status.vacancies.index).length;
+  }
+
+  int bookedPercent() {
+    if (repo.isEmpty) {
+      return 0;
+    }
+    return (bookedRooms() ~/ repo.values.length) * 100;
+  }
+
+  bool canBooked() {
+    return repo.values.any((element) => (element as Room).status == Status.vacancies.index);
+  }
+
+  //
+  //Filters
+  //
+
+  bool? _wifiFilter;
+  bool? _toiletFilter;
+  int _viewFilter = 0;
+  int? _bedFilter;
+  int? _floorFilter;
+  int? _statusFilter;
+
+  bool? get wifiFilter => _wifiFilter;
+  set wifiFilter(bool? value) {
+    _wifiFilter = value;
+    notifyListeners();
+  }
+
+  bool? get toiletFilter => _toiletFilter;
+  set toiletFilter(bool? value) {
+    _toiletFilter = value;
+    notifyListeners();
+  }
+
+  int get viewFilter => _viewFilter;
+  set viewFilter(int value) {
+    _viewFilter = value;
+    notifyListeners();
+  }
+
+  int? get bedFilter => _bedFilter;
+  set bedFilter(int? value) {
+    _bedFilter = value;
+    notifyListeners();
+  }
+
+  int? get floorFilter => _floorFilter;
+  set floorFilter(int? value) {
+    _floorFilter = value;
+    notifyListeners();
+  }
+
+  int? get statusFilter => _statusFilter;
+  set statusFilter(int? value) {
+    _statusFilter = value;
+    notifyListeners();
+  }
+
+  bool haveFilter() {
+    return _wifiFilter != null || _toiletFilter != null || _viewFilter != null || _bedFilter != null || _floorFilter != null || _statusFilter != null;
   }
 }

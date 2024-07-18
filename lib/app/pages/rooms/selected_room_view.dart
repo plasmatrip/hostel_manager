@@ -37,7 +37,7 @@ class SelectedRoomView extends StatelessWidget {
             padding: EdgeInsets.only(right: 24.w),
             child: GestureDetector(
               behavior: HitTestBehavior.opaque,
-              onTap: () async => AutoRouter.of(context).push(AddRoom(roomKey: room.key)),
+              onTap: () async => AutoRouter.of(context).replace(AddRoom(roomKey: room.key)),
               child: SvgPicture.asset('assets/icons/Pen 2.svg', width: 24.h, height: 24.h),
             ),
           ),

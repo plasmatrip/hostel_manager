@@ -4,6 +4,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hostel_manager/app/internal/colors.dart';
 import 'package:hostel_manager/app/internal/ui.dart';
+import 'package:hostel_manager/app/pages/rooms/widgets/filters/bed_filters.dart';
+import 'package:hostel_manager/app/pages/rooms/widgets/filters/floor_filters.dart';
+import 'package:hostel_manager/app/pages/rooms/widgets/filters/status_filters.dart';
+import 'package:hostel_manager/app/pages/rooms/widgets/filters/toilet_filters.dart';
+import 'package:hostel_manager/app/pages/rooms/widgets/filters/view_filters.dart';
+import 'package:hostel_manager/app/pages/rooms/widgets/filters/wifi_filters.dart';
+import 'package:hostel_manager/app/pages/rooms/widgets/search_block.dart';
 import 'package:hostel_manager/app/repository/room_repo.dart';
 import 'package:provider/provider.dart';
 
@@ -46,9 +53,32 @@ class FiltersView extends StatelessWidget {
         shadowColor: const Color(0x3FABB1B9),
         elevation: 10,
       ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.only(left: 20.w, right: 20.w, top: 20.h, bottom: 92.h),
+          child: Column(
+            children: [
+              SearchBlock(width: 335.w),
+              SizedBox(height: 40.h),
+              const StatusFilters(),
+              SizedBox(height: 12.h),
+              const FloorFilters(),
+              SizedBox(height: 12.h),
+              const BedFilters(),
+              SizedBox(height: 12.h),
+              const ViewFilters(),
+              SizedBox(height: 12.h),
+              const WifiFilters(),
+              SizedBox(height: 12.h),
+              const ToiletFilters(),
+              SizedBox(height: 12.h),
+            ],
+          ),
+        ),
+      ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FilledButton(
-        onPressed: () {},
+        onPressed: context.watch<RoomRepo>().haveFilter() ? () {} : null,
         style: context.extraBtn,
         child: const Text('Применить'),
       ),

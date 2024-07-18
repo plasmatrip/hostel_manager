@@ -55,12 +55,12 @@ class RoomsView extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
           child: Column(
             children: [
-              const Row(
+              Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  SearchBlock(),
-                  CalendarButton(),
-                  AddRoomButton(),
+                  SearchBlock(width: 239.w),
+                  const CalendarButton(),
+                  const AddRoomButton(),
                 ],
               ),
               Expanded(
@@ -79,7 +79,7 @@ class RoomsView extends StatelessWidget {
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         floatingActionButton: FilledButton(
-          onPressed: () {},
+          onPressed: context.watch<RoomRepo>().canBooked() ? () {} : null,
           style: context.extraBtn,
           child: const Text('Новое бронирование'),
         ),

@@ -36,6 +36,11 @@ class SelectedNewsView extends StatelessWidget {
               Image.asset(news.image),
               SizedBox(height: 12.h),
             ]);
+          case '[SUBTITLE]':
+            content.addAll([
+              Text(news.content[i].replaceAll(tag, ''), style: context.s15w400.copyWith(color: greyDark, height: 0)),
+              SizedBox(height: 12.h),
+            ]);
           case '[TIME]':
             content.addAll([
               Align(

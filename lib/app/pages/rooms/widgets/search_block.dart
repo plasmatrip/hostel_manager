@@ -8,8 +8,11 @@ import 'package:provider/provider.dart';
 
 class SearchBlock extends StatefulWidget {
   const SearchBlock({
+    required this.width,
     super.key,
   });
+
+  final double width;
 
   @override
   State<SearchBlock> createState() => _SearchBlockState();
@@ -33,7 +36,7 @@ class _SearchBlockState extends State<SearchBlock> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 239.w,
+      width: widget.width,
       height: 32.h,
       padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 4.h),
       decoration: ShapeDecoration(
