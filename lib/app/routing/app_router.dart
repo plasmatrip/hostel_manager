@@ -16,5 +16,6 @@ class AppRouter extends $AppRouter {
         AutoRoute(page: FiltersView.page),
         AutoRoute(page: SelectedRoomView.page),
         AutoRoute(page: AddBooking.page),
+        AutoRoute(page: CalendarView.page),
       ];
 }

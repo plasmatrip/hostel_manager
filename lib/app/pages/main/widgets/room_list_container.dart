@@ -1,9 +1,11 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hostel_manager/app/internal/colors.dart';
 import 'package:hostel_manager/app/internal/ui.dart';
 import 'package:hostel_manager/app/models/room.dart';
 import 'package:hostel_manager/app/pages/main/widgets/room_item.dart';
+import 'package:hostel_manager/app/routing/app_router.gr.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class RoomListContainer extends StatefulWidget {
@@ -90,7 +92,9 @@ class _RoomListContainerState extends State<RoomListContainer> {
                   ),
                 ),
                 FilledButton(
-                  onPressed: () {},
+                  onPressed: () async {
+                    AutoRouter.of(context).push(AddBooking(room: widget.vacancies.elementAt(controller.page!.round())));
+                  },
                   style: context.extraBtn.copyWith(
                       minimumSize: WidgetStatePropertyAll(Size(192.w, 26.h)),
                       maximumSize: WidgetStatePropertyAll(Size(192.w, 26.h)),

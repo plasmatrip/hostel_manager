@@ -3,6 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hostel_manager/app/internal/colors.dart';
 import 'package:hostel_manager/app/internal/ui.dart';
+import 'package:hostel_manager/app/internal/utils.dart';
+import 'package:hostel_manager/app/internal/widgets/alert_dialog.dart';
 import 'package:hostel_manager/app/internal/widgets/date_dialog.dart';
 import 'package:hostel_manager/app/repository/booking_repo.dart';
 import 'package:intl/intl.dart';
@@ -20,9 +22,17 @@ class DepartureField extends StatelessWidget {
         GestureDetector(
           behavior: HitTestBehavior.opaque,
           onTap: () async {
-            var result = await dateDialog(context, context.read<BookingRepo>().departure);
-            if (result != null && context.mounted) {
-              context.read<BookingRepo>().departure = result;
+            var departure = await dateDialog(context, context.read<BookingRepo>().departure);
+            if (departure != null && context.mounted) {
+              if (context.read<BookingRepo>().arrival != null) {
+                if (departure.isBefore(context.read<BookingRepo>().arrival!) || datesIsEqual(context.read<BookingRepo>().arrival!, departure)) {
+                  await alertDialog(context, 'Дата выбытия должна быть больше даты прибытия!');
+                } else {
+                  context.read<BookingRepo>().departure = departure;
+                }
+              } else {
+                context.read<BookingRepo>().departure = departure;
+              }
             }
           },
           child: Container(

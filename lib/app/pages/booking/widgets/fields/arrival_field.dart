@@ -3,6 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hostel_manager/app/internal/colors.dart';
 import 'package:hostel_manager/app/internal/ui.dart';
+import 'package:hostel_manager/app/internal/utils.dart';
+import 'package:hostel_manager/app/internal/widgets/alert_dialog.dart';
 import 'package:hostel_manager/app/internal/widgets/date_dialog.dart';
 import 'package:hostel_manager/app/repository/booking_repo.dart';
 import 'package:intl/intl.dart';
@@ -20,9 +22,17 @@ class ArrivalField extends StatelessWidget {
         GestureDetector(
           behavior: HitTestBehavior.opaque,
           onTap: () async {
-            var result = await dateDialog(context, context.read<BookingRepo>().arrival);
-            if (result != null && context.mounted) {
-              context.read<BookingRepo>().arrival = result;
+            var arrival = await dateDialog(context, context.read<BookingRepo>().arrival);
+            if (arrival != null && context.mounted) {
+              if (context.read<BookingRepo>().departure != null || datesIsEqual(context.read<BookingRepo>().departure, arrival)) {
+                if (arrival.isAfter(context.read<BookingRepo>().departure!)) {
+                  await alertDialog(context, 'Дата прибытия должна быть мешьше даты выбытия!');
+                } else {
+                  context.read<BookingRepo>().arrival = arrival;
+                }
+              } else {
+                context.read<BookingRepo>().arrival = arrival;
+              }
             }
           },
           child: Container(

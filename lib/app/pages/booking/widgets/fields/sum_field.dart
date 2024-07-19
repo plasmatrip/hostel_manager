@@ -5,29 +5,10 @@ import 'package:hostel_manager/app/internal/ui.dart';
 import 'package:hostel_manager/app/repository/booking_repo.dart';
 import 'package:provider/provider.dart';
 
-class SumField extends StatefulWidget {
+class SumField extends StatelessWidget {
   const SumField({
     super.key,
   });
-
-  @override
-  State<SumField> createState() => _SumFieldState();
-}
-
-class _SumFieldState extends State<SumField> {
-  late TextEditingController controller;
-
-  @override
-  void initState() {
-    controller = TextEditingController(text: context.read<BookingRepo>().name);
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    controller.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {

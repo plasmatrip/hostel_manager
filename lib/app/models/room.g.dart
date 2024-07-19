@@ -32,13 +32,14 @@ class RoomAdapter extends TypeAdapter<Room> {
       wifi: fields[8] as bool?,
       toilet: fields[9] as bool?,
       bathAccessories: fields[10] as bool?,
+      booking: (fields[15] as HiveList?)?.castHiveList(),
     );
   }
 
   @override
   void write(BinaryWriter writer, Room obj) {
     writer
-      ..writeByte(15)
+      ..writeByte(16)
       ..writeByte(0)
       ..write(obj.image1)
       ..writeByte(1)
@@ -68,7 +69,9 @@ class RoomAdapter extends TypeAdapter<Room> {
       ..writeByte(13)
       ..write(obj.image4)
       ..writeByte(14)
-      ..write(obj.image5);
+      ..write(obj.image5)
+      ..writeByte(15)
+      ..write(obj.booking);
   }
 
   @override

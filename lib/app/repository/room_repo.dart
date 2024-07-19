@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:hostel_manager/app/internal/boxes.dart';
+import 'package:hostel_manager/app/internal/utils.dart';
+import 'package:hostel_manager/app/models/booking.dart';
 import 'package:hostel_manager/app/models/room.dart';
 
 enum Status {
@@ -76,6 +78,22 @@ class RoomRepo with ChangeNotifier {
   String get searchString => _searchString;
   set searchString(String value) {
     _searchString = value;
+    notifyListeners();
+  }
+
+  DateTime _selectedDate = DateTime.now();
+
+  DateTime get selectedDate => _selectedDate;
+  set selectedDate(DateTime value) {
+    _selectedDate = value;
+    notifyListeners();
+  }
+
+  String _calendarSearchString = '';
+
+  String get calendarSearchString => _calendarSearchString;
+  set calendarSearchString(String value) {
+    _calendarSearchString = value;
     notifyListeners();
   }
 
@@ -203,11 +221,29 @@ class RoomRepo with ChangeNotifier {
   }
 
   Iterable vacancies() {
+    checkExpiredReservation();
     return repo.values.where((element) => (element as Room).status == Status.vacancies.index);
   }
 
-  Iterable rooms() {
+  void checkExpiredReservation() async {
+    for (Room room in repo.values) {
+      if (room.status == Status.booked.index) {
+        if (room.booking != null) {
+          if ((room.booking!.last as Booking).departure!.isBefore(DateTime.now())) {
+            room.status = Status.vacancies.index;
+            room.save();
+          }
+        }
+      }
+    }
+  }
+
+  Iterable rooms([bool booking = false]) {
+    checkExpiredReservation();
     Iterable rooms = repo.values.where((element) => _searchString.isEmpty ? true : element.name.contains(_searchString));
+    if (booking) {
+      rooms = rooms.where((element) => booking ? element.status == Status.vacancies.index : true);
+    }
 
     if (_useFilters) {
       rooms = rooms.where((element) => _toiletFilterUse == null ? true : (element as Room).toilet == _toiletFilterUse);
@@ -264,7 +300,7 @@ class RoomRepo with ChangeNotifier {
         }
       }
 
-      if (_statusFilterUse != 0) {
+      if (_statusFilterUse != 0 && !booking) {
         if (_statusFilterUse & Status.vacancies.mask == Status.vacancies.mask) {
           rooms = rooms.where((element) => element.status == Status.vacancies.index);
         }
@@ -280,6 +316,12 @@ class RoomRepo with ChangeNotifier {
       }
     }
 
+    return rooms;
+  }
+
+  Iterable bookedForDay() {
+    Iterable rooms = repo.values.where((element) => element.booking != null);
+    rooms = rooms.where((element) => dateInRange(_selectedDate, element.booking.last.arrival, element.booking.last.departure));
     return rooms;
   }
 
@@ -324,6 +366,8 @@ class RoomRepo with ChangeNotifier {
   int _statusFilterUse = 0;
 
   bool _useFilters = false;
+
+  bool get useFilters => _useFilters;
 
   void setFileters() {
     _useFilters = true;

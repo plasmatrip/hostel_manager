@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hostel_manager/app/internal/colors.dart';
 import 'package:hostel_manager/app/internal/ui.dart';
 import 'package:hostel_manager/app/models/room.dart';
@@ -21,7 +22,6 @@ class RoomsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Iterable rooms = context.watch<RoomRepo>().rooms();
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
@@ -42,7 +42,7 @@ class RoomsView extends StatelessWidget {
               padding: EdgeInsets.only(right: 24.w),
               child: GestureDetector(
                 behavior: HitTestBehavior.opaque,
-                onTap: () async => AutoRouter.of(context).push(const FiltersView()),
+                onTap: () async => AutoRouter.of(context).push(FiltersView(booking: booking)),
                 child: SvgPicture.asset('assets/icons/Settings.svg', width: 24.h, height: 24.h),
               ),
             ),
@@ -53,34 +53,47 @@ class RoomsView extends StatelessWidget {
           shadowColor: const Color(0x3FABB1B9),
           elevation: 10,
         ),
-        body: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
-          child: Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        body: ValueListenableBuilder(
+          valueListenable: context.read<RoomRepo>().repo.listenable(),
+          builder: (context, value, child) {
+            Iterable rooms = context.watch<RoomRepo>().rooms(booking);
+            return Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
+              child: Column(
                 children: [
-                  SearchBlock(width: 239.w),
-                  const CalendarButton(),
-                  const AddRoomButton(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      SearchBlock(width: 239.w),
+                      const CalendarButton(),
+                      const AddRoomButton(),
+                    ],
+                  ),
+                  if (context.watch<RoomRepo>().useFilters) ...[
+                    SizedBox(height: 12.h),
+                    Text(
+                      '* Для отбора данных используется фильтр. Для отмены войдите в настроки фильтра.',
+                      style: context.s12w400.copyWith(color: greyGrey),
+                    )
+                  ],
+                  Expanded(
+                    child: ListView.separated(
+                      padding: EdgeInsets.only(top: 20.h, bottom: 92.h),
+                      itemCount: rooms.length,
+                      separatorBuilder: (context, index) => SizedBox(height: 16.h),
+                      itemBuilder: (context, index) {
+                        Room room = rooms.elementAt(index);
+                        return RoomItem(
+                          room: room,
+                          booking: booking,
+                        );
+                      },
+                    ),
+                  ),
                 ],
               ),
-              Expanded(
-                child: ListView.separated(
-                  padding: EdgeInsets.only(top: 20.h, bottom: 92.h),
-                  itemCount: rooms.length,
-                  separatorBuilder: (context, index) => SizedBox(height: 16.h),
-                  itemBuilder: (context, index) {
-                    Room room = rooms.elementAt(index);
-                    return RoomItem(
-                      room: room,
-                      booking: booking,
-                    );
-                  },
-                ),
-              ),
-            ],
-          ),
+            );
+          },
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         floatingActionButton: booking

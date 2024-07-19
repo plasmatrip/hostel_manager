@@ -16,7 +16,9 @@ import 'package:provider/provider.dart';
 
 @RoutePage()
 class FiltersView extends StatelessWidget {
-  const FiltersView({super.key});
+  const FiltersView({required this.booking, super.key});
+
+  final bool booking;
 
   @override
   Widget build(BuildContext context) {
@@ -59,8 +61,10 @@ class FiltersView extends StatelessWidget {
             children: [
               SearchBlock(width: 335.w),
               SizedBox(height: 40.h),
-              const StatusFilters(),
-              SizedBox(height: 12.h),
+              if (!booking) ...[
+                const StatusFilters(),
+                SizedBox(height: 12.h),
+              ],
               const FloorFilters(),
               SizedBox(height: 12.h),
               const BedFilters(),

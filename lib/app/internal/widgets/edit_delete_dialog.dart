@@ -14,7 +14,7 @@ Future<String?> editDeleteDialog(BuildContext context, GlobalKey globalKey, [boo
     surfaceTintColor: const Color(0xFFFBFDFF),
     position: position(globalKey, context),
     elevation: 10,
-    constraints: BoxConstraints(maxWidth: 125.w, minHeight: 84.h),
+    constraints: BoxConstraints(maxWidth: 130.w, minHeight: 84.h),
     items: [
       PopupMenuItem<String>(
         value: 'EDIT',

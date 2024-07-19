@@ -49,6 +49,9 @@ class Room extends HiveObject {
   @HiveField(14)
   String image5;
 
+  @HiveField(15)
+  HiveList? booking;
+
   bool isNotEmpty() {
     return image1.isNotEmpty &&
         name.isNotEmpty &&
@@ -79,6 +82,7 @@ class Room extends HiveObject {
     wifi = room.wifi;
     toilet = room.toilet;
     bathAccessories = room.bathAccessories;
+    booking = room.booking;
   }
 
   Room({
@@ -97,5 +101,6 @@ class Room extends HiveObject {
     this.wifi,
     this.toilet,
     this.bathAccessories,
+    this.booking,
   });
 }
