@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hostel_manager/app/internal/colors.dart';
 import 'package:hostel_manager/app/internal/ui.dart';
-import 'package:hostel_manager/app/pages/rooms/widgets/day_item.dart';
-import 'package:hostel_manager/app/repository/room_repo.dart';
+import 'package:hostel_manager/app/pages/booking/widgets/day_item.dart';
+import 'package:hostel_manager/app/repository/booking_repo.dart';
 import 'package:intl/intl.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:provider/provider.dart';
@@ -39,9 +39,9 @@ class CalendarTimeline extends StatelessWidget {
         selectionMode: const SelectionMode.none(),
         firstDate: DateTime(2014, 1, 1),
         lastDate: DateTime(2034, 1, 1),
-        focusDate: context.watch<RoomRepo>().selectedDate,
+        focusDate: context.watch<BookingRepo>().selectedDate,
         onDateChange: (selectedDate) {
-          context.read<RoomRepo>().selectedDate = selectedDate;
+          context.read<BookingRepo>().selectedDate = selectedDate;
         },
         headerBuilder: (context, date) {
           return Column(
@@ -50,7 +50,7 @@ class CalendarTimeline extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   SizedBox(
-                    width: 125.w,
+                    width: 135.w,
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -58,8 +58,9 @@ class CalendarTimeline extends StatelessWidget {
                         GestureDetector(
                           behavior: HitTestBehavior.opaque,
                           onTap: () {
-                            context.read<RoomRepo>().selectedDate = Jiffy.parseFromDateTime(context.read<RoomRepo>().selectedDate).subtract(months: 1).dateTime;
-                            controller.animateToDate(context.read<RoomRepo>().selectedDate);
+                            context.read<BookingRepo>().selectedDate =
+                                Jiffy.parseFromDateTime(context.read<BookingRepo>().selectedDate).subtract(months: 1).dateTime;
+                            controller.animateToDate(context.read<BookingRepo>().selectedDate);
                           },
                           child: Icon(
                             Icons.arrow_back_ios,
@@ -68,14 +69,15 @@ class CalendarTimeline extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          DateFormat('MMMM', 'ru').format(date),
+                          monthName[date.month - 1],
                           style: context.s16w400.copyWith(color: greyDark),
                         ),
                         GestureDetector(
                           behavior: HitTestBehavior.opaque,
                           onTap: () {
-                            context.read<RoomRepo>().selectedDate = Jiffy.parseFromDateTime(context.read<RoomRepo>().selectedDate).add(months: 1).dateTime;
-                            controller.animateToDate(context.read<RoomRepo>().selectedDate);
+                            context.read<BookingRepo>().selectedDate =
+                                Jiffy.parseFromDateTime(context.read<BookingRepo>().selectedDate).add(months: 1).dateTime;
+                            controller.animateToDate(context.read<BookingRepo>().selectedDate);
                           },
                           child: Icon(
                             Icons.arrow_forward_ios,

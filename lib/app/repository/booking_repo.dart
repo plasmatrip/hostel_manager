@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:hostel_manager/app/internal/boxes.dart';
+import 'package:hostel_manager/app/internal/utils.dart';
 import 'package:hostel_manager/app/models/booking.dart';
 import 'package:hostel_manager/app/models/room.dart';
 import 'package:hostel_manager/app/repository/room_repo.dart';
+import 'package:jiffy/jiffy.dart';
+
+const monthName = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
 
 class BookingRepo with ChangeNotifier {
   Box repo = Hive.box<Booking>(Boxes.booking);
@@ -12,6 +16,29 @@ class BookingRepo with ChangeNotifier {
 
   bool editMode = false;
   int editKey = 0;
+
+  DateTime _selectedDate = DateTime.now();
+  DateTime _selectedMonth = DateTime.now();
+
+  DateTime get selectedDate => _selectedDate;
+  set selectedDate(DateTime value) {
+    _selectedDate = value;
+    notifyListeners();
+  }
+
+  DateTime get selectedMonth => _selectedMonth;
+  set selectedMonth(DateTime value) {
+    _selectedMonth = value;
+    notifyListeners();
+  }
+
+  String _searchString = '';
+
+  String get searchString => _searchString;
+  set searchString(String value) {
+    _searchString = value;
+    notifyListeners();
+  }
 
   String get name => _booking.name;
   set name(String value) {
@@ -118,6 +145,20 @@ class BookingRepo with ChangeNotifier {
 
   Future<void> delete(int key) async {
     Booking booking = repo.get(key);
+    if (booking.room != null) {
+      if (booking.room!.isNotEmpty) {
+        Room room = Hive.box<Room>(Boxes.room).get((booking.room!.last as Room).key)!;
+        if (room.booking != null) {
+          if (room.booking!.isNotEmpty) {
+            if ((room.booking!.last as Booking).key == booking.key) {
+              room.booking!.clear();
+              room.status = Status.vacancies.index;
+              room.save();
+            }
+          }
+        }
+      }
+    }
     booking.delete();
     notifyListeners();
   }
@@ -138,5 +179,72 @@ class BookingRepo with ChangeNotifier {
     } else {
       _booking.sum = 0;
     }
+  }
+
+  Iterable bookedForDay() {
+    return repo.values.where((element) =>
+        dateInRange(_selectedDate, (element as Booking).arrival, element.departure) &&
+        (_searchString.isEmpty ? true : (element.room!.last as Room).name.contains(_searchString)));
+  }
+
+  bool roomReservedByDate(DateTime date) {
+    if (_booking.room == null) {
+      return false;
+    }
+    return repo.values.any((element) =>
+        ((element as Booking).room!.last as Room).key == (_booking.room!.last as Room).key && dateInRange(date, element.arrival, element.departure));
+  }
+
+  bool roomReserved(Room room) {
+    if (_booking.arrival == null || _booking.departure == null) {
+      return false;
+    }
+    bool res = false;
+    if (_booking.arrival != null) {
+      res = repo.values.any((element) => (element.room.last as Room).key == room.key && dateInRange(_booking.arrival, element.arrival, element.departure));
+    }
+    if (res) {
+      return true;
+    }
+    if (_booking.departure != null) {
+      res = repo.values.any((element) => (element.room.last as Room).key == room.key && dateInRange(_booking.departure, element.arrival, element.departure));
+    }
+    if (res) {
+      return true;
+    }
+    if (_booking.arrival != null && _booking.departure != null) {
+      res = repo.values.any((element) =>
+          ((element as Booking).room!.last as Room).key == room.key &&
+          (dateInRange(element.arrival, _booking.arrival, _booking.departure) || dateInRange(element.departure, _booking.arrival, _booking.departure)));
+    }
+    if (res) {
+      return true;
+    }
+    return false;
+  }
+
+  ({Map<int, bool> bookedDays, Iterable bookingList}) bookedDays(int roomKey) {
+    Iterable bookingList = repo.values.where((element) =>
+        ((element as Booking).arrival!.month == _selectedMonth.month || element.departure!.month == _selectedMonth.month) &&
+        (element.room!.last as Room).key == roomKey);
+    Map<int, bool> bookedDays = {};
+    for (Booking booking in bookingList) {
+      DateTime start;
+      DateTime end;
+      if (booking.arrival!.month < _selectedMonth.month) {
+        start = DateTime(_selectedMonth.year, selectedMonth.month, 1);
+      } else {
+        start = booking.arrival!;
+      }
+      if (booking.departure!.month > _selectedMonth.month) {
+        end = DateTime(_selectedMonth.year, selectedMonth.month, Jiffy.parseFromDateTime(_selectedMonth).daysInMonth);
+      } else {
+        end = booking.departure!;
+      }
+      for (int i = start.day; i <= end.day; i++) {
+        bookedDays[i] = true;
+      }
+    }
+    return (bookedDays: bookedDays, bookingList: bookingList);
   }
 }

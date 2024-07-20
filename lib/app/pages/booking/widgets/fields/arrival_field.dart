@@ -28,10 +28,18 @@ class ArrivalField extends StatelessWidget {
                 if (arrival.isAfter(context.read<BookingRepo>().departure!)) {
                   await alertDialog(context, 'Дата прибытия должна быть мешьше даты выбытия!');
                 } else {
-                  context.read<BookingRepo>().arrival = arrival;
+                  if (!context.read<BookingRepo>().roomReservedByDate(arrival)) {
+                    context.read<BookingRepo>().arrival = arrival;
+                  } else {
+                    await alertDialog(context, '${DateFormat('dd.MM.y', 'ru').format(arrival)} Выбранная комната занята!');
+                  }
                 }
               } else {
-                context.read<BookingRepo>().arrival = arrival;
+                if (!context.read<BookingRepo>().roomReservedByDate(arrival)) {
+                  context.read<BookingRepo>().arrival = arrival;
+                } else {
+                  await alertDialog(context, '${DateFormat('dd.MM.y', 'ru').format(arrival)} Выбранная комната занята!');
+                }
               }
             }
           },

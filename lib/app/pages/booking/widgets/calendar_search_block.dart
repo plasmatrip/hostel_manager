@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hostel_manager/app/internal/colors.dart';
 import 'package:hostel_manager/app/internal/ui.dart';
-import 'package:hostel_manager/app/repository/room_repo.dart';
+import 'package:hostel_manager/app/repository/booking_repo.dart';
 import 'package:provider/provider.dart';
 
 class CalendarSearchBlock extends StatefulWidget {
@@ -23,7 +23,7 @@ class _CalendarSearchBlockState extends State<CalendarSearchBlock> {
 
   @override
   void initState() {
-    controller = TextEditingController(text: context.read<RoomRepo>().calendarSearchString);
+    controller = TextEditingController(text: context.read<BookingRepo>().searchString);
     super.initState();
   }
 
@@ -57,7 +57,7 @@ class _CalendarSearchBlockState extends State<CalendarSearchBlock> {
       child: TextField(
         textAlignVertical: TextAlignVertical.center,
         controller: controller,
-        onChanged: (value) => context.read<RoomRepo>().searchString = value,
+        onChanged: (value) => context.read<BookingRepo>().searchString = value,
         style: context.s13w400.copyWith(color: greyDark),
         decoration: InputDecoration(
           border: InputBorder.none,

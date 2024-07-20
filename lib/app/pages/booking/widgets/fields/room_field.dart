@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hostel_manager/app/internal/colors.dart';
 import 'package:hostel_manager/app/internal/ui.dart';
+import 'package:hostel_manager/app/internal/widgets/alert_dialog.dart';
 import 'package:hostel_manager/app/models/room.dart';
 import 'package:hostel_manager/app/pages/booking/widgets/room_item.dart';
 import 'package:hostel_manager/app/pages/main/widgets/free_room_pin.dart';
@@ -25,7 +26,11 @@ class RoomField extends StatelessWidget {
           onTap: () async {
             var room = await AutoRouter.of(context).push(RoomsView(booking: true));
             if (room != null && context.mounted) {
-              context.read<BookingRepo>().addRoom(room as Room);
+              if (!context.read<BookingRepo>().roomReserved(room as Room)) {
+                context.read<BookingRepo>().addRoom(room);
+              } else {
+                await alertDialog(context, 'На выбранные даты комната занята!');
+              }
             }
           },
           child: Container(

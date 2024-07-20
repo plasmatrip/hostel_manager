@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:hostel_manager/app/internal/boxes.dart';
-import 'package:hostel_manager/app/internal/utils.dart';
 import 'package:hostel_manager/app/models/booking.dart';
 import 'package:hostel_manager/app/models/room.dart';
 
@@ -78,22 +77,6 @@ class RoomRepo with ChangeNotifier {
   String get searchString => _searchString;
   set searchString(String value) {
     _searchString = value;
-    notifyListeners();
-  }
-
-  DateTime _selectedDate = DateTime.now();
-
-  DateTime get selectedDate => _selectedDate;
-  set selectedDate(DateTime value) {
-    _selectedDate = value;
-    notifyListeners();
-  }
-
-  String _calendarSearchString = '';
-
-  String get calendarSearchString => _calendarSearchString;
-  set calendarSearchString(String value) {
-    _calendarSearchString = value;
     notifyListeners();
   }
 
@@ -229,9 +212,11 @@ class RoomRepo with ChangeNotifier {
     for (Room room in repo.values) {
       if (room.status == Status.booked.index) {
         if (room.booking != null) {
-          if ((room.booking!.last as Booking).departure!.isBefore(DateTime.now())) {
-            room.status = Status.vacancies.index;
-            room.save();
+          if (room.booking!.isNotEmpty) {
+            if ((room.booking!.last as Booking).departure!.isBefore(DateTime.now())) {
+              room.status = Status.vacancies.index;
+              room.save();
+            }
           }
         }
       }
@@ -319,12 +304,6 @@ class RoomRepo with ChangeNotifier {
     return rooms;
   }
 
-  Iterable bookedForDay() {
-    Iterable rooms = repo.values.where((element) => element.booking != null);
-    rooms = rooms.where((element) => dateInRange(_selectedDate, element.booking.last.arrival, element.booking.last.departure));
-    return rooms;
-  }
-
   void setStatus(int key, int status) async {
     Room room = repo.get(key);
     room.status = status;
@@ -344,7 +323,7 @@ class RoomRepo with ChangeNotifier {
     if (repo.isEmpty) {
       return 0;
     }
-    return (bookedRooms() ~/ repo.values.length) * 100;
+    return (bookedRooms() / repo.values.length * 100).round();
   }
 
   bool canBooked() {

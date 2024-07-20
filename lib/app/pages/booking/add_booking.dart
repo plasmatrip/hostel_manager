@@ -19,16 +19,12 @@ import 'package:provider/provider.dart';
 
 @RoutePage()
 class AddBooking extends StatelessWidget {
-  const AddBooking({super.key, this.bookingKey, this.room});
+  const AddBooking({super.key, this.room});
 
-  final int? bookingKey;
   final Room? room;
 
   @override
   Widget build(BuildContext context) {
-    if (bookingKey != null) {
-      context.read<BookingRepo>().edit(bookingKey!);
-    }
     if (room != null && context.read<BookingRepo>().getRoom() == null) {
       context.read<BookingRepo>().addRoom(room!, false);
     }
@@ -83,7 +79,7 @@ class AddBooking extends StatelessWidget {
           onPressed: context.watch<BookingRepo>().canSave()
               ? () async {
                   context.read<BookingRepo>().save();
-                  AutoRouter.of(context).removeLast();
+                  AutoRouter.of(context).maybePop(true);
                 }
               : null,
           style: context.extraBtn,

@@ -28,10 +28,18 @@ class DepartureField extends StatelessWidget {
                 if (departure.isBefore(context.read<BookingRepo>().arrival!) || datesIsEqual(context.read<BookingRepo>().arrival!, departure)) {
                   await alertDialog(context, 'Дата выбытия должна быть больше даты прибытия!');
                 } else {
-                  context.read<BookingRepo>().departure = departure;
+                  if (!context.read<BookingRepo>().roomReservedByDate(departure)) {
+                    context.read<BookingRepo>().departure = departure;
+                  } else {
+                    await alertDialog(context, '${DateFormat('dd.MM.y', 'ru').format(departure)} Выбранная комната занята!');
+                  }
                 }
               } else {
-                context.read<BookingRepo>().departure = departure;
+                if (!context.read<BookingRepo>().roomReservedByDate(departure)) {
+                  context.read<BookingRepo>().departure = departure;
+                } else {
+                  await alertDialog(context, '${DateFormat('dd.MM.y', 'ru').format(departure)} Выбранная комната занята!');
+                }
               }
             }
           },

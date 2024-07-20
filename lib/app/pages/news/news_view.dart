@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive/hive.dart';
 import 'package:hostel_manager/app/internal/boxes.dart';
 import 'package:hostel_manager/app/internal/colors.dart';
-import 'package:hostel_manager/app/internal/ui.dart';
 import 'package:hostel_manager/app/models/news.dart';
 import 'package:hostel_manager/app/pages/news/widgets/news_item.dart';
 

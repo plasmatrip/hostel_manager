@@ -3,19 +3,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hostel_manager/app/internal/colors.dart';
 import 'package:hostel_manager/app/internal/ui.dart';
-import 'package:hostel_manager/app/pages/rooms/widgets/booked_room_list.dart';
-import 'package:hostel_manager/app/pages/rooms/widgets/calendar_search_block.dart';
-import 'package:hostel_manager/app/pages/rooms/widgets/calendar_timeline.dart';
+import 'package:hostel_manager/app/models/booking.dart';
+import 'package:hostel_manager/app/models/room.dart';
+import 'package:hostel_manager/app/pages/booking/widgets/booked_room_item.dart';
+import 'package:hostel_manager/app/pages/booking/widgets/calendar.dart';
+import 'package:hostel_manager/app/repository/booking_repo.dart';
 import 'package:hostel_manager/app/repository/room_repo.dart';
 import 'package:hostel_manager/app/routing/app_router.gr.dart';
 import 'package:provider/provider.dart';
 
 @RoutePage()
-class CalendarView extends StatelessWidget {
-  const CalendarView({super.key});
+class SelectedBookingRoomView extends StatelessWidget {
+  const SelectedBookingRoomView({required this.roomKey, super.key});
+
+  final int roomKey;
 
   @override
   Widget build(BuildContext context) {
+    Room room = context.read<RoomRepo>().repo.get(roomKey);
+    ({Map<int, bool> bookedDays, Iterable bookingList}) bookedData = context.watch<BookingRepo>().bookedDays(roomKey);
     return Scaffold(
       appBar: AppBar(
         leading: GestureDetector(
@@ -27,20 +33,30 @@ class CalendarView extends StatelessWidget {
             size: 24.h,
           ),
         ),
-        title: const Text('Календарь'),
+        title: Text(room.name),
         backgroundColor: bg,
         surfaceTintColor: bg,
         shadowColor: const Color(0x3FABB1B9),
         elevation: 10,
       ),
       body: Padding(
-        padding: EdgeInsets.only(left: 20.w, right: 20.w, top: 20.h),
+        padding: EdgeInsets.only(top: 20.h),
         child: Column(
           children: [
-            CalendarSearchBlock(width: 335.w),
-            SizedBox(height: 20.h),
-            const CalendarTimeline(),
-            const BookedRoomList(),
+            Calendar(
+              bookedDays: bookedData.bookedDays,
+            ),
+            Expanded(
+              child: ListView.separated(
+                padding: EdgeInsets.only(top: 20.h, bottom: 92.h, left: 20.w, right: 20.w),
+                itemCount: bookedData.bookingList.length,
+                separatorBuilder: (context, index) => SizedBox(height: 20.h),
+                itemBuilder: (context, index) {
+                  Booking booking = bookedData.bookingList.elementAt(index);
+                  return BookedRoomItem(booking: booking);
+                },
+              ),
+            ),
           ],
         ),
       ),

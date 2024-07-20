@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:hostel_manager/app/internal/boxes.dart';
+import 'package:hostel_manager/app/internal/utils.dart';
 import 'package:hostel_manager/app/models/task.dart';
 
 class TaskRepo with ChangeNotifier {
@@ -10,6 +11,13 @@ class TaskRepo with ChangeNotifier {
 
   bool editMode = false;
   int editKey = 0;
+
+  DateTime _selectedDate = DateTime.now();
+  DateTime get selectedDate => _selectedDate;
+  set selectedDate(DateTime value) {
+    _selectedDate = value;
+    notifyListeners();
+  }
 
   String get name => _task.name;
   set name(String value) {
@@ -72,5 +80,20 @@ class TaskRepo with ChangeNotifier {
 
   bool canSave() {
     return _task.isNotEmpty();
+  }
+
+  Iterable tasks() {
+    return repo.values.where((element) => datesIsEqual((element as Task).date, _selectedDate));
+  }
+
+  Future<void> setTaskDone(int taskKey) async {
+    Task task = repo.get(taskKey);
+    task.done = !task.done;
+    task.save();
+    notifyListeners();
+  }
+
+  Iterable taskByDate(DateTime date) {
+    return repo.values.where((element) => datesIsEqual((element as Task).date, date));
   }
 }

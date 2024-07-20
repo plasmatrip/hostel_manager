@@ -29,6 +29,7 @@ extension UI on BuildContext {
   TextStyle get s10w400 => TextStyle(fontSize: 10.h, fontFamily: 'SF Pro Display', fontWeight: FontWeight.w400);
   TextStyle get s10w300 => TextStyle(fontSize: 10.h, fontFamily: 'SF Pro Display', fontWeight: FontWeight.w300);
   TextStyle get s8w500 => TextStyle(fontSize: 8.h, fontFamily: 'SF Pro Display', fontWeight: FontWeight.w500);
+  TextStyle get s6w400 => TextStyle(fontSize: 6.h, fontFamily: 'SF Pro Display', fontWeight: FontWeight.w400);
 
   TextStyle get textUnderline => TextStyle(
         fontSize: 10.h,
